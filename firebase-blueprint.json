@@ -1,0 +1,211 @@
+{
+  "entities": {
+    "WaitlistEntry": {
+      "title": "WaitlistEntry",
+      "description": "Information collected from interested store owners who want to join Nearo",
+      "type": "object",
+      "properties": {
+        "store_name": {
+          "type": "string",
+          "description": "Name of the local shop/business"
+        },
+        "owner_name": {
+          "type": "string",
+          "description": "Name of the store owner"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Contact email"
+        },
+        "phone": {
+          "type": "string",
+          "description": "10-digit Indian phone number"
+        },
+        "city": {
+          "type": "string",
+          "description": "City where the store is located"
+        },
+        "store_type": {
+          "type": "string",
+          "description": "Type of category of the business",
+          "enum": ["Kirana/Grocery", "Organic Store", "Pharmacy", "Restaurant", "Other"]
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "Server-generated submit time"
+        },
+        "status": {
+          "type": "string",
+          "description": "Onboarding status of waitlist candidate",
+          "enum": ["pending", "contacted", "approved", "rejected"]
+        }
+      },
+      "required": ["store_name", "owner_name", "email", "phone", "city", "store_type", "timestamp", "status"]
+    },
+    "Store": {
+      "title": "Store",
+      "description": "Store configuration and visibility status for registered users",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Owner user ID"
+        },
+        "storeName": {
+          "type": "string",
+          "description": "Name of the store"
+        },
+        "address": {
+          "type": "string",
+          "description": "Street address of the physical store"
+        },
+        "location": {
+          "type": "string",
+          "description": "Geographical neighborhood or coordinate description"
+        },
+        "products": {
+          "type": "string",
+          "description": "Summary of products sold"
+        },
+        "visibility_score": {
+          "type": "number",
+          "description": "Aggregated platform visibility score Out of 100"
+        },
+        "platforms_active": {
+          "type": "array",
+          "description": "List of active connected platforms"
+        },
+        "subscription_status": {
+          "type": "string",
+          "description": "Payment/subscription state",
+          "enum": ["free_tier", "active", "cancelled"]
+        }
+      },
+      "required": ["userId", "storeName", "subscription_status"]
+    },
+    "Analytics": {
+      "title": "Analytics",
+      "description": "Daily metrics for visibility, impressions, and customer actions",
+      "type": "object",
+      "properties": {
+        "storeId": {
+          "type": "string",
+          "description": "Reference to the store ID"
+        },
+        "date": {
+          "type": "string",
+          "description": "Date of recorded analytics in YYYY-MM-DD format"
+        },
+        "impressions": {
+          "type": "number",
+          "description": "Number of times list or profile seen"
+        },
+        "clicks": {
+          "type": "number",
+          "description": "Profile detail clicks"
+        },
+        "calls": {
+          "type": "number",
+          "description": "Phone call actions from profiles"
+        },
+        "directions": {
+          "type": "number",
+          "description": "Directions query actions"
+        }
+      },
+      "required": ["storeId", "date", "impressions", "clicks", "calls", "directions"]
+    },
+    "Post": {
+      "title": "Post",
+      "description": "Social media or directory platform system generated posts",
+      "type": "object",
+      "properties": {
+        "storeId": {
+          "type": "string",
+          "description": "Reference to the store ID"
+        },
+        "content": {
+          "type": "string",
+          "description": "Content pattern of the scheduled post"
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "Optional illustration image URL"
+        },
+        "platform": {
+          "type": "string",
+          "description": "Connected target channel (e.g., Google Maps, Instagram, WhatsApp Business)"
+        },
+        "scheduledFor": {
+          "type": "string",
+          "description": "Timestamp indicating when the post is queued to be published"
+        },
+        "status": {
+          "type": "string",
+          "description": "Publishing execution state",
+          "enum": ["scheduled", "posted", "failed"]
+        },
+        "postedAt": {
+          "type": "string",
+          "description": "Actual date/time published"
+        },
+        "performance": {
+          "type": "object",
+          "description": "Key interactions metrics of this post"
+        }
+      },
+      "required": ["storeId", "content", "platform", "status"]
+    },
+    "PricingConfig": {
+      "title": "PricingConfig",
+      "description": "Base prices and platform multiplication parameters based on localized store attributes",
+      "type": "object",
+      "properties": {
+        "location": {
+          "type": "string",
+          "description": "Target micro-market city/locality in India"
+        },
+        "crowdMultiplier": {
+          "type": "number",
+          "description": "Factor adjustment based on local residential/commercial density"
+        },
+        "productMultiplier": {
+          "type": "number",
+          "description": "Factor adjustment based on catalog retail margin category"
+        },
+        "platformMultiplier": {
+          "type": "number",
+          "description": "Factor adjustment based on aggregate connected platforms count"
+        },
+        "basePrice": {
+          "type": "number",
+          "description": "Minimum absolute price baseline (in INR)"
+        }
+      },
+      "required": ["location", "crowdMultiplier", "productMultiplier", "platformMultiplier", "basePrice"]
+    }
+  },
+  "firestore": {
+    "/waitlist/{entryId}": {
+      "schema": "WaitlistEntry",
+      "description": "Waitlist entries collected publicly"
+    },
+    "/stores/{storeId}": {
+      "schema": "Store",
+      "description": "Registered stores configuration details"
+    },
+    "/analytics/{analyticsId}": {
+      "schema": "Analytics",
+      "description": "Historical analytics records for the dashboard"
+    },
+    "/posts/{postId}": {
+      "schema": "Post",
+      "description": "Active scheduled and drafted posts for active channels"
+    },
+    "/pricing_configs/{configId}": {
+      "schema": "PricingConfig",
+      "description": "Micro-market multipliers database"
+    }
+  }
+}

@@ -1,0 +1,181 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Global safety net: Default-deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // 2. Global attribute helpers and validators
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Auth looks up admin privileges in /admins/ collection or email matching Sidharth
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == "sidharthbhupathi72@gmail.com" ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    // 3. Schema Validators (Anti-Value-Poisoning & Anti-Update-Gap)
+    function isValidWaitlistEntry(data) {
+      return data.keys().hasAll(['store_name', 'owner_name', 'email', 'phone', 'city', 'store_type', 'timestamp', 'status'])
+        && data.keys().size() == 8
+        && data.store_name is string && data.store_name.size() > 0 && data.store_name.size() <= 200
+        && data.owner_name is string && data.owner_name.size() > 0 && data.owner_name.size() <= 200
+        && data.email is string && data.email.size() > 0 && data.email.size() <= 300
+        && data.phone is string && data.phone.size() >= 10 && data.phone.size() <= 15
+        && data.city is string && data.city.size() > 0 && data.city.size() <= 150
+        && data.store_type is string && data.store_type.size() > 0 && data.store_type.size() <= 100
+        && data.timestamp is timestamp
+        && data.status is string && (data.status == 'pending' || data.status == 'contacted' || data.status == 'approved' || data.status == 'rejected');
+    }
+
+    function isValidStore(data) {
+      return data.keys().hasAll(['userId', 'storeName', 'address', 'location', 'products', 'visibility_score', 'platforms_active', 'subscription_status'])
+        && data.keys().size() == 8
+        && data.userId is string && data.userId.size() > 0 && data.userId.size() <= 128
+        && data.storeName is string && data.storeName.size() > 0 && data.storeName.size() <= 200
+        && data.address is string && data.address.size() <= 500
+        && data.location is string && data.location.size() <= 500
+        && data.products is string && data.products.size() <= 1000
+        && data.visibility_score is number && data.visibility_score >= 0 && data.visibility_score <= 100
+        && data.platforms_active is list && data.platforms_active.size() <= 20
+        && data.subscription_status is string && (data.subscription_status == 'free_tier' || data.subscription_status == 'active' || data.subscription_status == 'cancelled');
+    }
+
+    function isValidAnalytics(data) {
+      return data.keys().hasAll(['storeId', 'date', 'impressions', 'clicks', 'calls', 'directions'])
+        && data.keys().size() == 6
+        && data.storeId is string && data.storeId.size() > 0 && data.storeId.size() <= 128
+        && data.date is string && data.date.size() == 10
+        && data.impressions is number && data.impressions >= 0
+        && data.clicks is number && data.clicks >= 0
+        && data.calls is number && data.calls >= 0
+        && data.directions is number && data.directions >= 0;
+    }
+
+    function isValidPost(data) {
+      return data.keys().hasAll(['storeId', 'content', 'imageUrl', 'platform', 'scheduledFor', 'status', 'postedAt', 'performance'])
+        && data.keys().size() == 8
+        && data.storeId is string && data.storeId.size() > 0 && data.storeId.size() <= 128
+        && data.content is string && data.content.size() <= 2000
+        && data.imageUrl is string && data.imageUrl.size() <= 1000
+        && data.platform is string && data.platform.size() > 0 && data.platform.size() <= 100
+        && (data.scheduledFor is timestamp || data.scheduledFor == null)
+        && data.status is string && (data.status == 'scheduled' || data.status == 'posted' || data.status == 'failed')
+        && (data.postedAt is timestamp || data.postedAt == null)
+        && data.performance is map;
+    }
+
+    function isValidPricingConfig(data) {
+      return data.keys().hasAll(['location', 'crowdMultiplier', 'productMultiplier', 'platformMultiplier', 'basePrice'])
+        && data.keys().size() == 5
+        && data.location is string && data.location.size() > 0 && data.location.size() <= 200
+        && data.crowdMultiplier is number && data.crowdMultiplier >= 0
+        && data.productMultiplier is number && data.productMultiplier >= 0
+        && data.platformMultiplier is number && data.platformMultiplier >= 0
+        && data.basePrice is number && data.basePrice >= 0;
+    }
+
+    // 4. Secure Match-Blocks per Collection
+
+    // Waitlist Entry Schema Enforcers
+    match /waitlist/{entryId} {
+      allow get: if isAdmin() || (isSignedIn() && existing().email == request.auth.token.email);
+      allow list: if isAdmin();
+      allow create: if isValidId(entryId) && isValidWaitlistEntry(incoming()) && incoming().timestamp == request.time && incoming().status == 'pending';
+      allow update: if isValidId(entryId) && isAdmin() && isValidWaitlistEntry(incoming());
+      allow delete: if isAdmin();
+    }
+
+    // Registered Stores Details
+    match /stores/{storeId} {
+      allow get: if isAdmin() || (isSignedIn() && existing().userId == request.auth.uid);
+      allow list: if isAdmin() || (isSignedIn() && resource.data.userId == request.auth.uid);
+      allow create: if isValidId(storeId) && (isAdmin() || (isSignedIn() && incoming().userId == request.auth.uid)) && isValidStore(incoming());
+      
+      allow update: if isValidId(storeId) && (
+        isAdmin() ||
+        (isSignedIn() && existing().userId == request.auth.uid && incoming().userId == request.auth.uid && isValidStore(incoming()) && (
+          // Action: Edit details or Change Connected Toggles (protects visibility score and subscription_status which are system only)
+          incoming().diff(existing()).affectedKeys().hasOnly(['storeName', 'address', 'location', 'products', 'platforms_active'])
+        ))
+      );
+      allow delete: if isAdmin();
+    }
+
+    // Historical Analytics records
+    match /analytics/{analyticsId} {
+      allow get: if isAdmin() || (isSignedIn() && get(/databases/$(database)/documents/stores/$(existing().storeId)).data.userId == request.auth.uid);
+      allow list: if isAdmin() || (isSignedIn() && get(/databases/$(database)/documents/stores/$(resource.data.storeId)).data.userId == request.auth.uid);
+      // Writes are restricted strictly to system / Admin functions
+      allow create: if isValidId(analyticsId) && isAdmin() && isValidAnalytics(incoming());
+      allow update: if isValidId(analyticsId) && isAdmin() && isValidAnalytics(incoming());
+      allow delete: if isAdmin();
+    }
+
+    // Scheduled and Published Posts
+    match /posts/{postId} {
+      allow get: if isAdmin() || (isSignedIn() && get(/databases/$(database)/documents/stores/$(existing().storeId)).data.userId == request.auth.uid);
+      allow list: if isAdmin() || (isSignedIn() && get(/databases/$(database)/documents/stores/$(resource.data.storeId)).data.userId == request.auth.uid);
+      
+      // Verification that the store actually belongs to the authenticated user on creation
+      allow create: if isValidId(postId) && isSignedIn() && 
+        get(/databases/$(database)/documents/stores/$(incoming().storeId)).data.userId == request.auth.uid && 
+        isValidPost(incoming());
+      
+      allow update: if isValidId(postId) && (
+        isAdmin() ||
+        (isSignedIn() && get(/databases/$(database)/documents/stores/$(existing().storeId)).data.userId == request.auth.uid && isValidPost(incoming()) && (
+          // Action: Reschedule or modify target channel or content before publication
+          incoming().diff(existing()).affectedKeys().hasOnly(['content', 'imageUrl', 'platform', 'scheduledFor', 'status'])
+        ))
+      );
+      allow delete: if isAdmin() || (isSignedIn() && get(/databases/$(database)/documents/stores/$(existing().storeId)).data.userId == request.auth.uid);
+    }
+
+    // Pricing Factors Configurator
+    match /pricing_configs/{configId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    function isValidMerchantPreferences(data) {
+      return data.keys().hasAll(['userId', 'tier', 'tierName', 'monthlyPrice', 'platformsCount', 'platformPackLabel', 'locationLabel', 'crowdLabel', 'productLabel', 'recommendedPlatforms', 'updatedAt'])
+        && data.userId is string && data.userId == request.auth.uid
+        && data.tier is string
+        && data.tierName is string && data.tierName.size() <= 40
+        && data.monthlyPrice is number && data.monthlyPrice >= 0 && data.monthlyPrice <= 2000
+        && data.platformsCount is number && data.platformsCount >= 0 && data.platformsCount <= 20
+        && data.platformPackLabel is string && data.platformPackLabel.size() <= 120
+        && data.locationLabel is string && data.locationLabel.size() <= 120
+        && data.crowdLabel is string && data.crowdLabel.size() <= 120
+        && data.productLabel is string && data.productLabel.size() <= 120
+        && data.recommendedPlatforms is list && data.recommendedPlatforms.size() <= 20
+        && data.updatedAt is string && data.updatedAt.size() <= 40;
+    }
+
+    match /merchant_preferences/{userId} {
+      allow read: if isSignedIn() && request.auth.uid == userId;
+      allow create, update: if isSignedIn() && request.auth.uid == userId && isValidId(userId)
+        && incoming().userId == request.auth.uid
+        && isValidMerchantPreferences(incoming());
+      allow delete: if isSignedIn() && request.auth.uid == userId;
+    }
+  }
+}
