@@ -1,7 +1,7 @@
 import React from "react";
 import { LogIn, LogOut, Menu, X, Globe } from "lucide-react";
 import { cn } from "../../lib/utils";
-import { auth } from "../../lib/firebase";
+import { auth, isNearoAdminEmail } from "../../lib/firebase";
 import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { useLanguage } from "../../hooks/useLanguage";
 import { AuthModal } from "../ui/AuthModal";
@@ -37,6 +37,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => 
     { id: "dashboard", label: "Dashboard (Demo)" },
     { id: "waitlist", label: "Join Waitlist" },
     { id: "profile", label: "Profile & Settings" },
+    ...(user && isNearoAdminEmail(user.email) ? [{ id: "admin", label: "Admin" }] : []),
   ];
 
   return (
