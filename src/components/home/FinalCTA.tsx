@@ -1,7 +1,8 @@
 import React from "react";
 import { motion } from "motion/react";
 import { Button } from "../ui/Button";
-import { Sparkles, ArrowRight, Star } from "lucide-react";
+import { Sparkles, ArrowRight } from "lucide-react";
+import { foundingCohortLabel } from "../../lib/beta";
 
 interface FinalCTAProps {
   onPageChange: (page: string) => void;
@@ -23,16 +24,9 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onPageChange }) => {
             Stop losing local customers to online conglomerates.
           </h2>
           <p className="text-sm md:text-base text-brand-bg/80 leading-relaxed max-w-lg font-medium">
-            Join Ramesh and the Nearo squad. We will visit your store, program your custom search blueprint, and sync your catalog automatically.
+            Apply via the waitlist. After we verify your shop in person, we program your search blueprint and sync your catalog automatically.
           </p>
-          <div className="flex gap-4 items-center flex-wrap pt-2">
-            <div className="flex items-center gap-1">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-3.5 w-3.5 fill-brand-gold text-brand-gold" />
-              ))}
-            </div>
-            <span className="text-xs font-mono text-brand-bg/65">Rated 4.9/5 by Bengaluru kirana networks</span>
-          </div>
+          <p className="text-xs font-mono text-brand-bg/65 pt-1">{foundingCohortLabel()}</p>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 shrink-0 w-full lg:w-auto relative z-10">

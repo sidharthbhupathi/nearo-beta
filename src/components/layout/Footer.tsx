@@ -63,7 +63,7 @@ export const Footer: React.FC<{ onPageChange: (page: string) => void }> = ({ onP
       </div>
 
       <div className="max-w-7xl mx-auto border-t border-brand-beige/50 mt-12 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-brand-secondary">
-        <p>© 2026 Nearo. All rights reserved. Registered under Ministry of MSME, Govt of India.</p>
+        <p>© 2026 Nearo Technologies. Built in Bengaluru for Indian local retail.</p>
         <p className="font-serif italic font-light">Supporting "Vocal for Local" and digital neighborhood inclusion.</p>
       </div>
     </footer>

@@ -1,6 +1,6 @@
 import type { FactorOption } from "../types";
 
-export const MERCHANTS_ONBOARDED = 0;
+export { MERCHANTS_ONBOARDED, BETA_FOUNDING_SLOTS, BETA_CITY } from "./beta";
 
 export const PRICING_FACTORS = {
   location: {

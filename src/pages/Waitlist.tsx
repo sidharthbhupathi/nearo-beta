@@ -7,7 +7,7 @@ const perks = [
   { icon: Gift, title: "₹0 First Month", desc: "Full platform access with zero upfront payment." },
   { icon: MapPin, title: "In-Person Setup", desc: "A Nearo agent visits your store and handles everything." },
   { icon: Users, title: "Beta Cohort", desc: "Be among the first merchants onboarded on Nearo." },
-  { icon: ShieldCheck, title: "Secure & Swadeshi", desc: "KYB-verified onboarding with Indian retail standards." },
+  { icon: ShieldCheck, title: "Secure & Swadeshi", desc: "KYB-gated onboarding — every shop verified in person before going live." },
 ];
 
 export const Waitlist: React.FC = () => {

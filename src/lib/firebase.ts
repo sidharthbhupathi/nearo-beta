@@ -13,13 +13,19 @@ import {
   onSnapshot,
   type Unsubscribe,
 } from 'firebase/firestore';
-import type { Store, Analytics } from '../types';
+import type { Store, Analytics, MerchantAccount } from '../types';
 import firebaseConfig from '../../firebase-applet-config.json';
 
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
+
+const NEARO_ADMIN_EMAILS = ['sidharthbhupathi72@gmail.com'];
+
+export function isNearoAdminEmail(email: string | null | undefined): boolean {
+  return Boolean(email && NEARO_ADMIN_EMAILS.includes(email.toLowerCase()));
+}
 
 export enum OperationType {
   CREATE = 'create',
@@ -134,6 +140,25 @@ export async function ensureStoreDocument(
 
   await setDoc(storeRef, storePayload);
   return { id: storeId, ...storePayload };
+}
+
+export function subscribeToMerchantAccount(
+  userId: string,
+  onData: (account: MerchantAccount | null) => void,
+  onError?: (error: Error) => void
+): Unsubscribe {
+  const accountRef = doc(db, 'merchant_accounts', userId);
+
+  return onSnapshot(
+    accountRef,
+    (snapshot) => {
+      onData(snapshot.exists() ? ({ ...snapshot.data() } as MerchantAccount) : null);
+    },
+    (error) => {
+      handleFirestoreError(error, OperationType.GET, `merchant_accounts/${userId}`);
+      onError?.(error instanceof Error ? error : new Error(String(error)));
+    }
+  );
 }
 
 export function subscribeToStoreDocument(

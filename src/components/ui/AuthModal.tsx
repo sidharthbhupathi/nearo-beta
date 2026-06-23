@@ -20,6 +20,7 @@ import {
   updateProfile 
 } from "firebase/auth";
 import { toast } from "react-hot-toast";
+import { IS_PRODUCTION } from "../../lib/beta";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -95,7 +96,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
       console.error("Email auth error:", error);
       // Auto-registration feature for high usability if they try to sign in but account doesn't exist yet
       if (!isRegistering && (error?.code === "auth/user-not-found" || error?.code === "auth/invalid-credential")) {
-        // Attempt a seamless registration on credentials if not found to provide super smooth testing
+        if (IS_PRODUCTION) {
+          toast.error("No account found. Join the waitlist — we approve every shop before login access.");
+        } else {
+        // Dev only: seamless registration for local testing
         try {
           toast.loading("Account not found. Dynamically creating your profile...", { duration: 2000 });
           const result = await createUserWithEmailAndPassword(auth, email, password);
@@ -106,6 +110,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           onClose();
         } catch (regError: any) {
           toast.error(regError?.message || "Failed to sign up.");
+        }
         }
       } else {
         toast.error(error?.message || "Invalid credentials.");
@@ -202,7 +207,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         )}
 
         <div className="space-y-4 relative z-10 flex flex-col">
-          {/* Quick Instant Access Button - Bypass popup constraints entirely */}
+          {!IS_PRODUCTION && (
           <button
             onClick={handleInstantDemoLogin}
             disabled={loading}
@@ -211,6 +216,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             <Sparkles className="h-4.5 w-4.5 text-brand-gold" />
             Instant One-Click Demo Sign-In
           </button>
+          )}
+
+          {IS_PRODUCTION && (
+            <p className="text-[11px] text-brand-secondary leading-relaxed text-center px-2">
+              Beta is invite-only. Join the waitlist first — we enable login after KYB verification.
+            </p>
+          )}
 
           {/* Regular Google Auth button */}
           <button
@@ -342,7 +354,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             </button>
           </form>
 
-          {/* Toggle Registering view */}
+          {/* Toggle Registering view — dev only */}
+          {!IS_PRODUCTION && (
           <div className="pt-2 text-center">
             <button
               onClick={() => setIsRegistering(!isRegistering)}
@@ -353,6 +366,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
                 : "Need a new account? Register Shop here"}
             </button>
           </div>
+          )}
         </div>
       </motion.div>
     </div>

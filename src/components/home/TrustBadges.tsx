@@ -8,21 +8,21 @@ export const TrustBadges: React.FC = () => {
       quote: "My organic cold-pressed oils start showing up on Google Maps, and daily footfall increased in just 2 weeks. Ramesh did all the setup in-person!",
       author: "Venkadesh Prasad",
       shop: "Prasad Organics, Jayanagar",
-      rating: "5.0 ★"
+      rating: "Pilot story"
     },
     {
       quote: "I just text my new sweet stock updates to Ramesh on WhatsApp, and automatically a beautiful translation goes live on Google Search & Justdial.",
       author: "Savitri Devendra",
       shop: "Sri Sai Grand Sweets, Malleshwaram",
-      rating: "5.0 ★"
+      rating: "Pilot story"
     }
   ];
 
   const standards = [
     {
       icon: <ShieldCheck className="h-6 w-6 text-brand-gold shrink-0" />,
-      title: "KYB Verified Onboarding",
-      desc: "Every merchant profile is secured using standard registered Swadeshi trading guidelines."
+      title: "KYB-Gated Onboarding",
+      desc: "Every merchant is verified in person before their store goes live on Nearo."
     },
     {
       icon: <Flame className="h-6 w-6 text-brand-gold shrink-0" />,
@@ -83,7 +83,7 @@ export const TrustBadges: React.FC = () => {
           ))}
         </div>
 
-        {/* Right Column: In-Person Success Stories */}
+        {/* Right Column: Illustrative pilot stories (not aggregate ratings) */}
         <div className="lg:col-span-1 flex flex-col justify-between gap-4">
           {testimonials.map((testi, i) => (
             <motion.div
@@ -98,7 +98,7 @@ export const TrustBadges: React.FC = () => {
               <div className="relative z-10">
                 <div className="flex items-center justify-between">
                   <span className="text-brand-gold text-xs font-semibold tracking-wider font-mono uppercase bg-brand-gold/5 px-2.5 py-1 rounded">
-                    Validated Partner
+                    Illustrative pilot story
                   </span>
                   <span className="text-[#C9A96E] font-bold text-xs">{testi.rating}</span>
                 </div>

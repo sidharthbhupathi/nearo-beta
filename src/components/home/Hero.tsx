@@ -1,7 +1,8 @@
 import React from "react";
 import { motion } from "motion/react";
 import { Button } from "../ui/Button";
-import { ArrowRight, Sparkles, MapPin, Search, Star } from "lucide-react";
+import { ArrowRight, Sparkles, MapPin, Search } from "lucide-react";
+import { heroTrustHeadline, heroTrustSubline } from "../../lib/beta";
 
 interface HeroProps {
   onPageChange: (page: string) => void;
@@ -88,10 +89,10 @@ export const Hero: React.FC<HeroProps> = ({ onPageChange }) => {
           </div>
           <div>
             <div className="flex items-center gap-1">
-              <Star className="h-4.5 w-4.5 fill-brand-gold text-brand-gold" />
-              <span className="font-semibold text-brand-primary text-sm">4.9/5 Rating</span>
+              <Sparkles className="h-4 w-4 text-brand-gold" />
+              <span className="font-semibold text-brand-primary text-sm">{heroTrustHeadline()}</span>
             </div>
-            <span className="text-xs text-brand-secondary">Beta launch — be among the first Kiranas in Bengaluru</span>
+            <span className="text-xs text-brand-secondary">{heroTrustSubline()}</span>
           </div>
         </motion.div>
       </div>

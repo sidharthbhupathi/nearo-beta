@@ -15,7 +15,9 @@ import { getLogoComponent } from "../components/ui/Logos";
 import { useLanguage } from "../hooks/useLanguage";
 import { useDashboardSync } from "../hooks/useDashboardSync";
 import { useMerchantPreferences } from "../hooks/useMerchantPreferences";
+import { useMerchantAccount } from "../hooks/useMerchantAccount";
 import { SubscriptionUpgradeCard } from "../components/dashboard/SubscriptionUpgradeCard";
+import { MerchantPendingGate } from "../components/dashboard/MerchantPendingGate";
 import { t } from "../lib/translations";
 import { 
   Building2, 
@@ -34,6 +36,7 @@ interface DashboardProps {
 
 export const Dashboard: React.FC<DashboardProps> = ({ onPageChange }) => {
   const { language } = useLanguage();
+  const { currentUser, kybStatus, isVerified, loading: accountLoading } = useMerchantAccount();
   const { preferences, upgradeFromPreferences, syncing: prefsSyncing } = useMerchantPreferences();
   const {
     connectedPlatforms,
@@ -132,6 +135,16 @@ export const Dashboard: React.FC<DashboardProps> = ({ onPageChange }) => {
     }
   };
 
+  if (currentUser && !accountLoading && !isVerified && kybStatus) {
+    return (
+      <MerchantPendingGate
+        kybStatus={kybStatus}
+        email={currentUser.email}
+        onJoinWaitlist={() => onPageChange?.("waitlist")}
+      />
+    );
+  }
+
   return (
     <div className="page-shell py-12 md:py-16 px-6 md:px-12 max-w-7xl mx-auto space-y-12 relative z-10">
       
@@ -160,7 +173,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onPageChange }) => {
                 ? "bg-green-100 text-green-700 border-green-200"
                 : "bg-brand-bg/50 text-brand-secondary border-brand-beige"
             )}>
-              {isLive ? t("● Firestore Live Sync", language) : t("● Local Demo Mode", language)}
+              {isLive ? t("● Firestore Live Sync", language) : t("● Demo Preview (sample data)", language)}
             </span>
             {syncing && (
               <span className="font-mono bg-brand-gold/10 text-brand-primary px-2.5 py-1 rounded font-bold border border-brand-gold/20 animate-pulse">
@@ -436,7 +449,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ onPageChange }) => {
             </form>
           ) : (
             <div className="space-y-3">
-              {/* KYB Approved Indicator Shield */}
+              {/* KYB status — only when merchant is verified live */}
+              {isLive && (
               <div className="p-3 rounded-xl bg-[#f0f9f1] border border-green-200 flex items-center gap-2.5 bg-green-50/50">
                 <ShieldCheck className="h-5 w-5 text-green-700 shrink-0" />
                 <div className="text-xs">
@@ -444,6 +458,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onPageChange }) => {
                   <span className="text-[10px] text-green-600 font-mono">{t("Status: Autopilot Publishing Secured", language)}</span>
                 </div>
               </div>
+              )}
 
               {/* Tabular details block mimicking trading logs */}
               <div className="divide-y divide-brand-beige/50 text-xs border border-brand-beige/50 rounded-xl overflow-hidden bg-brand-bg/5">

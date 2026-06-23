@@ -1,12 +1,12 @@
 import React from "react";
 import { motion } from "motion/react";
-import { MERCHANTS_ONBOARDED } from "../../lib/pricing";
+import { MERCHANTS_ONBOARDED, BETA_FOUNDING_SLOTS } from "../../lib/pricing";
 
 export const Stats: React.FC = () => {
   const stats = [
     { value: String(MERCHANTS_ONBOARDED), label: "Stores Onboarded (Beta)", icon: "🏪" },
     { value: "12+", label: "Platforms Covered", icon: "🌐" },
-    { value: "4.9", label: "Store Rating", icon: "⭐" },
+    { value: String(BETA_FOUNDING_SLOTS), label: "Founding Slots Open", icon: "🎯" },
     { value: "₹0", label: "First Month Free", icon: "🎁" },
   ];
 
