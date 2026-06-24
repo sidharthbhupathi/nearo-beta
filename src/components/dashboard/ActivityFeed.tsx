@@ -52,12 +52,12 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
   const { language } = useLanguage();
 
   const activities = useMemo(() => {
-    const primaryPlatform = connectedPlatforms[0] ?? "Google Maps";
+    const primaryPlatform = connectedPlatforms[0] ?? "Google Business Profile";
     const socialPlatform = connectedPlatforms.find((platform) =>
-      ["Instagram", "Facebook", "WhatsApp Business"].includes(platform)
+      ["Instagram", "Facebook", "Meta Ads", "WhatsApp Business", "YouTube"].includes(platform)
     ) ?? "Instagram";
     const directoryPlatform = connectedPlatforms.find((platform) =>
-      ["Justdial", "Sulekha", "Google Search"].includes(platform)
+      ["Justdial", "IndiaMART", "Google Search"].includes(platform)
     ) ?? "Justdial";
 
     const updatedLabel = lastUpdatedAt

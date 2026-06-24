@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ChevronDown, ChevronUp, HelpCircle } from "lucide-react";
+import { PLATFORM_COUNT } from "../../lib/pricing";
 
 interface FAQItem {
   question: string;
@@ -15,7 +16,7 @@ export const FAQ: React.FC = () => {
       answer: "Nearo is a full-visibility digital sync agency tailored for small Indian physical businesses (like Kirana stores, sweet stalls, organic warehouses, and clothing spots). We handle all technical setups in-person to sync your physical location coordinates, daily stock updates, and localized keywords across Google Maps, WhatsApp Business, Justdial, Instagram, and 8+ other local platforms automatically."
     },
     {
-      question: "Do I need a computer to manage these 12+ platforms?",
+      question: `Do I need a computer to manage these ${PLATFORM_COUNT} platforms?`,
       answer: "No, absolutely not! We believe in 'Zero-Setup Friction'. You do not need to download complex web panels or own a laptop. When our Nearo onboarding agent visits your shop in-person, they configure our automated sync engine. After that, you can simply text your fresh inventory or discounts to our verified WhatsApp bot, and our engine automatically translates and publishes the updates across all platform feeds."
     },
     {

@@ -31,7 +31,7 @@ export const HowItWorks: React.FC = () => {
     {
       step: "04",
       title: "Auto-Post",
-      description: "High-quality descriptions, deals, and keywords go live on Google Maps and 12+ social channels automatically.",
+      description: "High-quality descriptions, deals, and keywords go live on Google Business Profile and all connected agency channels automatically.",
       icon: "⚡",
     },
     {

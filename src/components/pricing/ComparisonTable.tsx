@@ -1,11 +1,12 @@
 import React from "react";
 import { Check, X, ShieldCheck, HelpCircle } from "lucide-react";
+import { PLATFORM_COUNT } from "../../lib/pricing";
 
 export const ComparisonTable: React.FC = () => {
   const comparisonRows = [
     {
       feature: "Number of Platforms Synced",
-      nearo: "12+ Directories & Social APIs",
+      nearo: `${PLATFORM_COUNT} agency channels (search, ads, social, WhatsApp)`,
       diy: "1 (Usually just Google Maps)",
       agency: "Only 2 or 3 (Highly manual)"
     },

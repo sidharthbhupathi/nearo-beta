@@ -1,4 +1,5 @@
 import React from "react";
+import { PLATFORM_COUNT } from "../../lib/pricing";
 
 export const Footer: React.FC<{ onPageChange: (page: string) => void }> = ({ onPageChange }) => {
   return (
@@ -14,7 +15,7 @@ export const Footer: React.FC<{ onPageChange: (page: string) => void }> = ({ onP
             <span className="text-lg font-serif font-bold text-brand-primary tracking-tight">Nearo</span>
           </div>
           <p className="text-sm text-brand-secondary max-w-sm mb-6 font-sans">
-            Nearo is the full-stack visibility squad for Indian local commerce. We help Kirana shops, chemical-free organic stores, local boutiques, and small brands unlock organic discoverability on 12+ digital channels with zero technical work.
+            Nearo is the full-stack visibility squad for Indian local commerce. We help Kirana shops, chemical-free organic stores, local boutiques, and small brands unlock organic discoverability across {PLATFORM_COUNT} agency-grade digital channels with zero technical work.
           </p>
           <div className="text-xs uppercase font-mono tracking-widest text-brand-gold font-semibold">
             🌱 Made for a self-reliant India.
@@ -63,7 +64,7 @@ export const Footer: React.FC<{ onPageChange: (page: string) => void }> = ({ onP
       </div>
 
       <div className="max-w-7xl mx-auto border-t border-brand-beige/50 mt-12 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-brand-secondary">
-        <p>© 2026 Nearo Technologies. Built in Bengaluru for Indian local retail.</p>
+        <p>© 2026 Nearo. All rights reserved. Bengaluru beta — founding merchant cohort.</p>
         <p className="font-serif italic font-light">Supporting "Vocal for Local" and digital neighborhood inclusion.</p>
       </div>
     </footer>

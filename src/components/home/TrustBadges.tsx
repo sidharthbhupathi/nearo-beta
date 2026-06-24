@@ -8,13 +8,13 @@ export const TrustBadges: React.FC = () => {
       quote: "My organic cold-pressed oils start showing up on Google Maps, and daily footfall increased in just 2 weeks. Ramesh did all the setup in-person!",
       author: "Venkadesh Prasad",
       shop: "Prasad Organics, Jayanagar",
-      rating: "Pilot story"
+      rating: "Pilot goal"
     },
     {
       quote: "I just text my new sweet stock updates to Ramesh on WhatsApp, and automatically a beautiful translation goes live on Google Search & Justdial.",
       author: "Savitri Devendra",
       shop: "Sri Sai Grand Sweets, Malleshwaram",
-      rating: "Pilot story"
+      rating: "Pilot goal"
     }
   ];
 
@@ -22,7 +22,7 @@ export const TrustBadges: React.FC = () => {
     {
       icon: <ShieldCheck className="h-6 w-6 text-brand-gold shrink-0" />,
       title: "KYB-Gated Onboarding",
-      desc: "Every merchant is verified in person before their store goes live on Nearo."
+      desc: "Every merchant is verified in person before their store goes live — Udyam/GST or shop license on file."
     },
     {
       icon: <Flame className="h-6 w-6 text-brand-gold shrink-0" />,
@@ -83,7 +83,7 @@ export const TrustBadges: React.FC = () => {
           ))}
         </div>
 
-        {/* Right Column: Illustrative pilot stories (not aggregate ratings) */}
+        {/* Right Column: In-Person Success Stories */}
         <div className="lg:col-span-1 flex flex-col justify-between gap-4">
           {testimonials.map((testi, i) => (
             <motion.div

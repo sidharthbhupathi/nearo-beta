@@ -74,7 +74,7 @@ app.get("/api/status/health", (req, res) => {
   try {
     res.json({
       status: "healthy",
-      platforms: ["google_maps", "google_search", "instagram", "whatsapp", "facebook", "justdial", "sulekha"],
+      platforms: ["google_business", "google_search", "google_ads", "instagram", "facebook", "meta_ads", "whatsapp", "justdial", "youtube", "indiamart"],
       timestamp: new Date().toISOString()
     });
   } catch (error) {

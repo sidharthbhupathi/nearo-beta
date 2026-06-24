@@ -1,6 +1,16 @@
 import type { FactorOption } from "../types";
+import {
+  ALL_PLATFORM_NAMES,
+  PLATFORM_PACKS,
+  PLATFORM_COUNT,
+  PLATFORM_COUNT_LABEL,
+} from "./platforms";
 
-export { MERCHANTS_ONBOARDED, BETA_FOUNDING_SLOTS, BETA_CITY } from "./beta";
+export { ALL_PLATFORM_NAMES, PLATFORM_PACKS, PLATFORM_COUNT, PLATFORM_COUNT_LABEL };
+
+export const MERCHANTS_ONBOARDED = 0;
+export const BETA_FOUNDING_SPOTS = 100;
+export const BETA_LAUNCH_CITY = "Bengaluru";
 
 export const PRICING_FACTORS = {
   location: {
@@ -33,38 +43,11 @@ export const PRICING_FACTORS = {
   platforms: {
     name: "Platform Coverage",
     options: [
-      { label: "Google Maps Only", multiplier: 0.5, price: 199 },
+      { label: "Google Business Profile Only", multiplier: 0.5, price: 199 },
       { label: "Local Search + WhatsApp Pack", multiplier: 0.7, price: 279 },
-      { label: "Full Omnichannel (All 12+ channels)", multiplier: 1.0, price: 399 },
+      { label: `Full Omnichannel (All ${PLATFORM_COUNT} channels)`, multiplier: 1.0, price: 399 },
     ] as FactorOption[],
   },
-};
-
-export const ALL_PLATFORM_NAMES = [
-  "Google Maps",
-  "Google Search",
-  "Instagram",
-  "WhatsApp Business",
-  "Facebook",
-  "Justdial",
-  "Sulekha",
-  "Apple Maps",
-  "YouTube Shorts",
-  "SMS",
-  "ChatGPT Discovery",
-  "TikTok Local",
-];
-
-export const PLATFORM_PACKS: Record<string, string[]> = {
-  "Google Maps Only": ["Google Maps"],
-  "Local Search + WhatsApp Pack": [
-    "Google Maps",
-    "Google Search",
-    "WhatsApp Business",
-    "Justdial",
-    "Sulekha",
-  ],
-  "Full Omnichannel (All 12+ channels)": ALL_PLATFORM_NAMES,
 };
 
 export type SubscriptionTier = "starter" | "growth" | "pro" | "omnichannel";

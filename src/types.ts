@@ -1,17 +1,3 @@
-export type KybStatus = "pending" | "approved" | "verified";
-
-export interface MerchantAccount {
-  userId: string;
-  email: string;
-  storeName: string;
-  phone?: string;
-  city?: string;
-  kybStatus: KybStatus;
-  waitlistId?: string;
-  approvedAt?: string;
-  verifiedAt?: string;
-}
-
 export interface WaitlistEntry {
   id?: string;
   store_name: string;
@@ -49,7 +35,7 @@ export interface Analytics {
 export interface PlatformInfo {
   name: string;
   icon: string;
-  category: "Search" | "Social" | "Messaging" | "Directory" | "Video" | "Emerging";
+  category: "Local Search" | "Paid Ads" | "Social" | "Messaging" | "Directory" | "Video";
 }
 
 export interface FactorOption {

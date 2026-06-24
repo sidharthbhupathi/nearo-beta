@@ -6,7 +6,6 @@ import { Pricing } from "./pages/Pricing";
 import { Dashboard } from "./pages/Dashboard";
 import { Waitlist } from "./pages/Waitlist";
 import { Profile } from "./pages/Profile";
-import { Admin } from "./pages/Admin";
 import { Toaster } from "react-hot-toast";
 
 export default function App() {
@@ -29,8 +28,6 @@ export default function App() {
         return <Waitlist />;
       case "profile":
         return <Profile onPageChange={handlePageChange} />;
-      case "admin":
-        return <Admin onPageChange={handlePageChange} />;
       default:
         return <Home onPageChange={handlePageChange} />;
     }

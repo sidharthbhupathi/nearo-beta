@@ -3,6 +3,7 @@ import { db } from "./firebase";
 import {
   PRICING_FACTORS,
   PLATFORM_PACKS,
+  PLATFORM_COUNT,
   computeMonthlyPrice,
   tierFromPrice,
   tierLabel,
@@ -63,9 +64,9 @@ export function categoryToProductFocus(category: string): string {
 }
 
 export function connectedCountToPlatformPack(count: number): string {
-  if (count <= 1) return "Google Maps Only";
+  if (count <= 1) return "Google Business Profile Only";
   if (count <= 5) return "Local Search + WhatsApp Pack";
-  return "Full Omnichannel (All 12+ channels)";
+  return `Full Omnichannel (All ${PLATFORM_COUNT} channels)`;
 }
 
 export function buildPreferences(input: {
@@ -103,7 +104,7 @@ export function buildPreferences(input: {
 
   const monthlyPrice = computeMonthlyPrice(location, crowd, products, platforms);
   const tier = tierFromPrice(monthlyPrice);
-  const recommendedPlatforms = PLATFORM_PACKS[platformPackLabel] ?? PLATFORM_PACKS["Google Maps Only"];
+  const recommendedPlatforms = PLATFORM_PACKS[platformPackLabel] ?? PLATFORM_PACKS["Google Business Profile Only"];
 
   return {
     locationLabel,

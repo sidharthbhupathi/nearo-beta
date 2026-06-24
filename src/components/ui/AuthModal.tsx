@@ -20,12 +20,14 @@ import {
   updateProfile 
 } from "firebase/auth";
 import { toast } from "react-hot-toast";
-import { IS_PRODUCTION } from "../../lib/beta";
+import { PLATFORM_COUNT } from "../../lib/pricing";
 
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
+const IS_PRODUCTION = import.meta.env.PROD;
 
 export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   const [isRegistering, setIsRegistering] = useState(false);
@@ -95,11 +97,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     } catch (error: any) {
       console.error("Email auth error:", error);
       // Auto-registration feature for high usability if they try to sign in but account doesn't exist yet
-      if (!isRegistering && (error?.code === "auth/user-not-found" || error?.code === "auth/invalid-credential")) {
-        if (IS_PRODUCTION) {
-          toast.error("No account found. Join the waitlist — we approve every shop before login access.");
-        } else {
-        // Dev only: seamless registration for local testing
+      // Production: sign-in only — merchants are approved via waitlist first
+      if (!isRegistering && !IS_PRODUCTION && (error?.code === "auth/user-not-found" || error?.code === "auth/invalid-credential")) {
+        // Attempt a seamless registration on credentials if not found to provide super smooth testing
         try {
           toast.loading("Account not found. Dynamically creating your profile...", { duration: 2000 });
           const result = await createUserWithEmailAndPassword(auth, email, password);
@@ -110,7 +110,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           onClose();
         } catch (regError: any) {
           toast.error(regError?.message || "Failed to sign up.");
-        }
         }
       } else {
         toast.error(error?.message || "Invalid credentials.");
@@ -182,7 +181,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
               {isRegistering ? "Register New Shop" : "Sign In to Nearo"}
             </h3>
             <p className="text-xs text-brand-secondary">
-              Unlock synchronized visibility automation across 12+ channels.
+              Unlock synchronized visibility automation across {PLATFORM_COUNT} agency-grade channels.
             </p>
           </div>
           <button 
@@ -219,8 +218,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           )}
 
           {IS_PRODUCTION && (
-            <p className="text-[11px] text-brand-secondary leading-relaxed text-center px-2">
-              Beta is invite-only. Join the waitlist first — we enable login after KYB verification.
+            <p className="text-[11px] text-brand-secondary text-center leading-relaxed px-2">
+              Merchant accounts are invite-only after waitlist approval. Use the email we verified on WhatsApp.
             </p>
           )}
 
@@ -354,7 +353,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             </button>
           </form>
 
-          {/* Toggle Registering view — dev only */}
+          {/* Toggle Registering view — dev only; production merchants come from waitlist */}
           {!IS_PRODUCTION && (
           <div className="pt-2 text-center">
             <button

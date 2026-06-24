@@ -15,19 +15,13 @@ import { getLogoComponent } from "../components/ui/Logos";
 import { useLanguage } from "../hooks/useLanguage";
 import { useDashboardSync } from "../hooks/useDashboardSync";
 import { useMerchantPreferences } from "../hooks/useMerchantPreferences";
-import { useMerchantAccount } from "../hooks/useMerchantAccount";
 import { SubscriptionUpgradeCard } from "../components/dashboard/SubscriptionUpgradeCard";
-import { MerchantPendingGate } from "../components/dashboard/MerchantPendingGate";
 import { t } from "../lib/translations";
-import { 
-  Building2, 
-  MapPin, 
-  Globe2, 
-  ShieldCheck, 
-  Sparkles, 
-  Plus, 
-  AlertCircle,
-  HelpCircle
+import { NEARO_PLATFORMS, PLATFORM_COUNT, getPlatformByName } from "../lib/platforms";
+import {
+  Building2,
+  ShieldCheck,
+  Sparkles,
 } from "lucide-react";
 
 interface DashboardProps {
@@ -36,7 +30,6 @@ interface DashboardProps {
 
 export const Dashboard: React.FC<DashboardProps> = ({ onPageChange }) => {
   const { language } = useLanguage();
-  const { currentUser, kybStatus, isVerified, loading: accountLoading } = useMerchantAccount();
   const { preferences, upgradeFromPreferences, syncing: prefsSyncing } = useMerchantPreferences();
   const {
     connectedPlatforms,
@@ -89,20 +82,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onPageChange }) => {
     lastPackRef.current = pack;
   }, [preferences, applyPlatforms]);
 
-  const allPlatforms = [
-    { name: "Google Maps", icon: "📍" },
-    { name: "Google Search", icon: "🔍" },
-    { name: "Instagram", icon: "📸" },
-    { name: "WhatsApp Business", icon: "💬" },
-    { name: "Facebook", icon: "👍" },
-    { name: "Justdial", icon: "📞" },
-    { name: "Sulekha", icon: "📋" },
-    { name: "Apple Maps", icon: "🍎" },
-    { name: "YouTube Shorts", icon: "🎬" },
-    { name: "SMS", icon: "📱" },
-    { name: "ChatGPT Discovery", icon: "🤖" },
-    { name: "TikTok Local", icon: "🎵" }
-  ];
+  const allPlatforms = NEARO_PLATFORMS.map((p) => ({ name: p.name, category: p.category }));
 
   const handleTogglePlatform = async (name: string) => {
     try {
@@ -135,16 +115,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ onPageChange }) => {
     }
   };
 
-  if (currentUser && !accountLoading && !isVerified && kybStatus) {
-    return (
-      <MerchantPendingGate
-        kybStatus={kybStatus}
-        email={currentUser.email}
-        onJoinWaitlist={() => onPageChange?.("waitlist")}
-      />
-    );
-  }
-
   return (
     <div className="page-shell py-12 md:py-16 px-6 md:px-12 max-w-7xl mx-auto space-y-12 relative z-10">
       
@@ -173,7 +143,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onPageChange }) => {
                 ? "bg-green-100 text-green-700 border-green-200"
                 : "bg-brand-bg/50 text-brand-secondary border-brand-beige"
             )}>
-              {isLive ? t("● Firestore Live Sync", language) : t("● Demo Preview (sample data)", language)}
+              {isLive ? t("● Firestore Live Sync", language) : t("● Local Demo Mode", language)}
             </span>
             {syncing && (
               <span className="font-mono bg-brand-gold/10 text-brand-primary px-2.5 py-1 rounded font-bold border border-brand-gold/20 animate-pulse">
@@ -253,7 +223,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onPageChange }) => {
                   {t("Synchronized Footprint", language)}
                 </span>
                 <h4 className="font-serif font-black text-2xl text-white mt-0.5 mb-0.5">
-                  {connectedPlatforms.length} <span className="text-brand-gold text-xs font-sans font-normal">{t("/ 12 Active", language)}</span>
+                  {connectedPlatforms.length} <span className="text-brand-gold text-xs font-sans font-normal">{t(`/ ${PLATFORM_COUNT} Active`, language)}</span>
                 </h4>
                 <p className="text-[10.5px] text-brand-bg/75 leading-tight">
                   {t("Physical coordinates are locked and broadcasting across regional stores.", language)}
@@ -263,15 +233,15 @@ export const Dashboard: React.FC<DashboardProps> = ({ onPageChange }) => {
               {/* Dense subcategory breakdown matching category indices */}
               <div className="border-t border-brand-bg/10 pt-2 flex flex-col gap-1 text-[10px] font-mono text-brand-bg/90">
                 <div className="flex justify-between items-center">
-                  <span>{t("📍 Maps Guides:", language)}</span>
+                  <span>{t("📍 Local Search:", language)}</span>
                   <span className="font-bold text-white">
-                    {connectedPlatforms.filter(p => ["Google Maps", "Apple Maps"].includes(p)).length} / 2
+                    {connectedPlatforms.filter((p) => getPlatformByName(p)?.category === "Local Search").length} / 3
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span>{t("💬 Social Channels:", language)}</span>
                   <span className="font-bold text-white">
-                    {connectedPlatforms.filter(p => ["Instagram", "WhatsApp Business", "Facebook"].includes(p)).length} / 3
+                    {connectedPlatforms.filter((p) => ["Social", "Messaging", "Video"].includes(getPlatformByName(p)?.category ?? "")).length} / 5
                   </span>
                 </div>
               </div>
@@ -325,7 +295,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onPageChange }) => {
               </p>
             </div>
             <div className="text-[10px] font-mono uppercase bg-brand-gold/15 text-[#C9A96E] font-bold px-2 py-1 rounded">
-              {t("Total Powered: 12 Directories", language)}
+              {t(`Total Powered: ${PLATFORM_COUNT} Channels`, language)}
             </div>
           </div>
 
@@ -333,21 +303,22 @@ export const Dashboard: React.FC<DashboardProps> = ({ onPageChange }) => {
             {allPlatforms.map((pt) => {
               const isConnected = connectedPlatforms.includes(pt.name);
               const getSyncFrequency = (name: string) => {
-                if (["Google Maps", "Google Search", "WhatsApp Business"].includes(name)) return "Real-time";
-                if (["Instagram", "Facebook", "ChatGPT Discovery"].includes(name)) return "15M Interval";
+                const platform = getPlatformByName(name);
+                if (!platform) return "Daily Sync";
+                if (platform.category === "Local Search" || platform.category === "Messaging") return "Real-time";
+                if (platform.category === "Paid Ads") return "Campaign Sync";
+                if (platform.category === "Social" || platform.category === "Video") return "15M Interval";
                 return "Daily Sync";
               };
               const getPlatformReach = (name: string) => {
-                if (["Google Maps", "Google Search"].includes(name)) return "Extreme (5.0★)";
-                if (["WhatsApp Business", "Instagram"].includes(name)) return "High (4.8★)";
-                return "Targeted (4.5★)";
+                const platform = getPlatformByName(name);
+                if (platform?.category === "Local Search" || platform?.category === "Paid Ads") return "High intent";
+                if (platform?.category === "Messaging" || platform?.category === "Social") return "High engagement";
+                return "Targeted leads";
               };
               const getPlatformDomain = (name: string) => {
-                if (["Google Maps", "Apple Maps"].includes(name)) return "Navigation GIS";
-                if (["Google Search", "ChatGPT Discovery"].includes(name)) return "Local Search Index";
-                if (["Instagram", "Facebook", "YouTube Shorts"].includes(name)) return "Consumer Social";
-                if (["WhatsApp Business", "SMS"].includes(name)) return "B2B Messaging";
-                return "Industry Directory";
+                const platform = getPlatformByName(name);
+                return platform?.agencyRole ?? "Marketing channel";
               };
 
               return (
@@ -449,16 +420,20 @@ export const Dashboard: React.FC<DashboardProps> = ({ onPageChange }) => {
             </form>
           ) : (
             <div className="space-y-3">
-              {/* KYB status — only when merchant is verified live */}
-              {isLive && (
-              <div className="p-3 rounded-xl bg-[#f0f9f1] border border-green-200 flex items-center gap-2.5 bg-green-50/50">
-                <ShieldCheck className="h-5 w-5 text-green-700 shrink-0" />
+              {/* KYB Approved Indicator Shield */}
+              <div className={`p-3 rounded-xl border flex items-center gap-2.5 ${isLive ? "bg-amber-50/80 border-amber-200" : "bg-brand-beige/20 border-brand-beige/50"}`}>
+                <ShieldCheck className={`h-5 w-5 shrink-0 ${isLive ? "text-amber-700" : "text-brand-secondary"}`} />
                 <div className="text-xs">
-                  <span className="font-black text-green-800 block">{t("KYB Verified Outpost", language)}</span>
-                  <span className="text-[10px] text-green-600 font-mono">{t("Status: Autopilot Publishing Secured", language)}</span>
+                  <span className={`font-black block ${isLive ? "text-amber-900" : "text-brand-primary"}`}>
+                    {isLive ? "Beta account — KYB visit pending" : "Demo preview store"}
+                  </span>
+                  <span className={`text-[10px] font-mono ${isLive ? "text-amber-700" : "text-brand-secondary"}`}>
+                    {isLive
+                      ? "Full publishing unlocks after your in-person onboarding visit"
+                      : "Sign in after waitlist approval to sync your real store"}
+                  </span>
                 </div>
               </div>
-              )}
 
               {/* Tabular details block mimicking trading logs */}
               <div className="divide-y divide-brand-beige/50 text-xs border border-brand-beige/50 rounded-xl overflow-hidden bg-brand-bg/5">

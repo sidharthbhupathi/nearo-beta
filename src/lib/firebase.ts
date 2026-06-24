@@ -13,19 +13,13 @@ import {
   onSnapshot,
   type Unsubscribe,
 } from 'firebase/firestore';
-import type { Store, Analytics, MerchantAccount } from '../types';
+import type { Store, Analytics } from '../types';
 import firebaseConfig from '../../firebase-applet-config.json';
 
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
-
-const NEARO_ADMIN_EMAILS = ['sidharthbhupathi72@gmail.com'];
-
-export function isNearoAdminEmail(email: string | null | undefined): boolean {
-  return Boolean(email && NEARO_ADMIN_EMAILS.includes(email.toLowerCase()));
-}
 
 export enum OperationType {
   CREATE = 'create',
@@ -96,15 +90,14 @@ export async function testFirestoreConnection(): Promise<void> {
   }
 }
 
-export const DEFAULT_CONNECTED_PLATFORMS = [
-  'Google Maps',
-  'Google Search',
-  'Instagram',
-  'WhatsApp Business',
-  'Facebook',
-  'Justdial',
-  'Sulekha',
-];
+import {
+  DEFAULT_CONNECTED_PLATFORMS,
+  getPlatformWeights,
+  getPlatformColors,
+  normalizePlatformName,
+} from './platforms';
+
+export { DEFAULT_CONNECTED_PLATFORMS };
 
 export function calculateVisibilityScore(platformCount: number): number {
   return Math.min(100, Math.round(20 + platformCount * 6.5));
@@ -140,25 +133,6 @@ export async function ensureStoreDocument(
 
   await setDoc(storeRef, storePayload);
   return { id: storeId, ...storePayload };
-}
-
-export function subscribeToMerchantAccount(
-  userId: string,
-  onData: (account: MerchantAccount | null) => void,
-  onError?: (error: Error) => void
-): Unsubscribe {
-  const accountRef = doc(db, 'merchant_accounts', userId);
-
-  return onSnapshot(
-    accountRef,
-    (snapshot) => {
-      onData(snapshot.exists() ? ({ ...snapshot.data() } as MerchantAccount) : null);
-    },
-    (error) => {
-      handleFirestoreError(error, OperationType.GET, `merchant_accounts/${userId}`);
-      onError?.(error instanceof Error ? error : new Error(String(error)));
-    }
-  );
 }
 
 export function subscribeToStoreDocument(
@@ -267,20 +241,7 @@ export function summarizeAnalytics(records: Analytics[]): AnalyticsSummary {
   };
 }
 
-const PLATFORM_IMPRESSION_WEIGHTS: Record<string, number> = {
-  'Google Maps': 0.34,
-  'Google Search': 0.14,
-  Instagram: 0.22,
-  'WhatsApp Business': 0.12,
-  Facebook: 0.08,
-  Justdial: 0.05,
-  Sulekha: 0.03,
-  'Apple Maps': 0.01,
-  'YouTube Shorts': 0.005,
-  SMS: 0.003,
-  'ChatGPT Discovery': 0.002,
-  'TikTok Local': 0.001,
-};
+const PLATFORM_IMPRESSION_WEIGHTS: Record<string, number> = getPlatformWeights();
 
 export interface PlatformImpressionSlice {
   name: string;
@@ -289,16 +250,7 @@ export interface PlatformImpressionSlice {
   color: string;
 }
 
-const PLATFORM_COLORS: Record<string, string> = {
-  'Google Maps': '#1A1A1A',
-  'Google Search': '#2D2D2D',
-  Instagram: '#C9A96E',
-  'WhatsApp Business': '#E8DCC8',
-  Facebook: '#5C5C5C',
-  Justdial: '#8B7355',
-  Sulekha: '#A0927D',
-  Others: 'rgba(26, 26, 26, 0.2)',
-};
+const PLATFORM_COLORS: Record<string, string> = getPlatformColors();
 
 export function buildPlatformBreakdown(
   totalImpressions: number,
@@ -308,10 +260,13 @@ export function buildPlatformBreakdown(
     return [];
   }
 
-  const activeWeights = connectedPlatforms.map((platform) => ({
-    platform,
-    weight: PLATFORM_IMPRESSION_WEIGHTS[platform] ?? 0.01,
-  }));
+  const activeWeights = connectedPlatforms.map((platform) => {
+    const canonical = normalizePlatformName(platform);
+    return {
+      platform: canonical,
+      weight: PLATFORM_IMPRESSION_WEIGHTS[canonical] ?? 0.01,
+    };
+  });
   const weightTotal = activeWeights.reduce((sum, entry) => sum + entry.weight, 0);
 
   const slices = activeWeights

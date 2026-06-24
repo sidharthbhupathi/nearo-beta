@@ -155,14 +155,6 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
-    function isValidMerchantAccount(data) {
-      return data.keys().hasAll(['userId', 'email', 'storeName', 'kybStatus'])
-        && data.userId is string && data.userId.size() > 0 && data.userId.size() <= 128
-        && data.email is string && data.email.size() > 0 && data.email.size() <= 300
-        && data.storeName is string && data.storeName.size() > 0 && data.storeName.size() <= 200
-        && data.kybStatus is string && (data.kybStatus == 'pending' || data.kybStatus == 'approved' || data.kybStatus == 'verified');
-    }
-
     function isValidMerchantPreferences(data) {
       return data.keys().hasAll(['userId', 'tier', 'tierName', 'monthlyPrice', 'platformsCount', 'platformPackLabel', 'locationLabel', 'crowdLabel', 'productLabel', 'recommendedPlatforms', 'updatedAt'])
         && data.userId is string && data.userId == request.auth.uid
@@ -184,13 +176,6 @@ service cloud.firestore {
         && incoming().userId == request.auth.uid
         && isValidMerchantPreferences(incoming());
       allow delete: if isSignedIn() && request.auth.uid == userId;
-    }
-
-    match /merchant_accounts/{userId} {
-      allow get: if isAdmin() || (isSignedIn() && request.auth.uid == userId);
-      allow list: if isAdmin();
-      allow create, update: if isAdmin() && isValidId(userId) && isValidMerchantAccount(incoming()) && incoming().userId == userId;
-      allow delete: if isAdmin();
     }
   }
 }

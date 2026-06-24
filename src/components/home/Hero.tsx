@@ -1,8 +1,8 @@
 import React from "react";
 import { motion } from "motion/react";
 import { Button } from "../ui/Button";
-import { ArrowRight, Sparkles, MapPin, Search } from "lucide-react";
-import { heroTrustHeadline, heroTrustSubline } from "../../lib/beta";
+import { ArrowRight, Sparkles, MapPin, Search, Users } from "lucide-react";
+import { BETA_LAUNCH_CITY, PLATFORM_COUNT } from "../../lib/pricing";
 
 interface HeroProps {
   onPageChange: (page: string) => void;
@@ -43,7 +43,7 @@ export const Hero: React.FC<HeroProps> = ({ onPageChange }) => {
           transition={{ duration: 0.7, delay: 0.2 }}
           className="text-base sm:text-lg text-brand-secondary leading-relaxed max-w-xl mb-10"
         >
-          Get discovered on Google Maps, Instagram, WhatsApp, and 12+ platforms — automatically. No marketing agencies, no technical skills needed. ₹0 for your entire first month.
+          Get discovered on Google Business Profile, Instagram, WhatsApp, and {PLATFORM_COUNT} agency-grade channels — automatically. No marketing agencies, no technical skills needed. ₹0 for your entire first month.
         </motion.p>
 
         <motion.div
@@ -88,11 +88,13 @@ export const Hero: React.FC<HeroProps> = ({ onPageChange }) => {
             <div className="h-8 w-8 rounded-full bg-[#c2dcd9] border-2 border-brand-bg flex items-center justify-center font-bold text-[10px] text-brand-primary">PK</div>
           </div>
           <div>
-            <div className="flex items-center gap-1">
-              <Sparkles className="h-4 w-4 text-brand-gold" />
-              <span className="font-semibold text-brand-primary text-sm">{heroTrustHeadline()}</span>
+            <div className="flex items-center gap-1.5">
+              <Users className="h-4 w-4 text-brand-gold" />
+              <span className="font-semibold text-brand-primary text-sm">Founding beta cohort</span>
             </div>
-            <span className="text-xs text-brand-secondary">{heroTrustSubline()}</span>
+            <span className="text-xs text-brand-secondary">
+              Launching in {BETA_LAUNCH_CITY} — in-person onboarding for every shop
+            </span>
           </div>
         </motion.div>
       </div>
@@ -116,7 +118,7 @@ export const Hero: React.FC<HeroProps> = ({ onPageChange }) => {
                 <div className="h-3 w-3 rounded-full bg-brand-success" />
               </div>
               <span className="text-[10px] font-mono tracking-widest text-[#5C5C5C] font-semibold bg-brand-beige/30 px-3 py-1 rounded-full">
-                NEARBY SEARCH SIMULATOR
+                SAMPLE GOOGLE MAPS LISTING
               </span>
             </div>
 
@@ -138,7 +140,7 @@ export const Hero: React.FC<HeroProps> = ({ onPageChange }) => {
                         <span key={idx} className="text-xs">★</span>
                       ))}
                     </div>
-                    <span className="text-[10px] text-brand-secondary">(120+ local reviews)</span>
+                    <span className="text-[10px] text-brand-secondary">(sample listing preview)</span>
                   </div>
                 </div>
                 <span className="text-[10px] uppercase font-mono font-bold tracking-wider px-2 py-1 bg-brand-gold/15 text-brand-primary rounded-md border border-brand-gold/20">

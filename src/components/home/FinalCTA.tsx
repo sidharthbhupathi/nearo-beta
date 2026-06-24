@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "motion/react";
 import { Button } from "../ui/Button";
 import { Sparkles, ArrowRight } from "lucide-react";
-import { foundingCohortLabel } from "../../lib/beta";
+import { BETA_LAUNCH_CITY } from "../../lib/pricing";
 
 interface FinalCTAProps {
   onPageChange: (page: string) => void;
@@ -24,9 +24,11 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onPageChange }) => {
             Stop losing local customers to online conglomerates.
           </h2>
           <p className="text-sm md:text-base text-brand-bg/80 leading-relaxed max-w-lg font-medium">
-            Apply via the waitlist. After we verify your shop in person, we program your search blueprint and sync your catalog automatically.
+            Join the founding beta in {BETA_LAUNCH_CITY}. We visit your store in person, build your search blueprint, and sync your catalog — no laptop required.
           </p>
-          <p className="text-xs font-mono text-brand-bg/65 pt-1">{foundingCohortLabel()}</p>
+          <p className="text-xs font-mono text-brand-bg/65 pt-2">
+            Apply via waitlist → WhatsApp confirmation → in-person KYB visit → dashboard goes live.
+          </p>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 shrink-0 w-full lg:w-auto relative z-10">

@@ -15,7 +15,6 @@ import {
   type PlatformImpressionSlice,
 } from '../lib/firebase';
 import { getStoreAnalytics } from '../api';
-import { useMerchantAccount } from './useMerchantAccount';
 import type { Analytics, Store } from '../types';
 
 const DEFAULT_SHOP = {
@@ -44,7 +43,6 @@ interface DashboardSyncState {
 }
 
 export function useDashboardSync() {
-  const { isVerified, isAdmin } = useMerchantAccount();
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [store, setStore] = useState<Store | null>(null);
   const [analytics, setAnalytics] = useState<Analytics[]>([]);
@@ -59,8 +57,7 @@ export function useDashboardSync() {
   const [localPlatforms, setLocalPlatforms] = useState<string[]>(DEFAULT_CONNECTED_PLATFORMS);
 
   const storeId = currentUser?.uid ?? null;
-  const isLive = Boolean(storeId && isVerified);
-  const canProvisionStore = Boolean(storeId && (isVerified || isAdmin));
+  const isLive = Boolean(storeId);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -82,7 +79,7 @@ export function useDashboardSync() {
   }, []);
 
   useEffect(() => {
-    if (!storeId || !canProvisionStore) {
+    if (!storeId) {
       setStore(null);
       setAnalytics([]);
       setLoading(false);
@@ -164,7 +161,7 @@ export function useDashboardSync() {
       unsubscribeStore?.();
       unsubscribeAnalytics?.();
     };
-  }, [storeId, canProvisionStore]);
+  }, [storeId]);
 
   const connectedPlatforms = isLive ? (store?.platforms_active ?? localPlatforms) : localPlatforms;
   const shopName = isLive ? (store?.storeName ?? localShopName) : localShopName;
