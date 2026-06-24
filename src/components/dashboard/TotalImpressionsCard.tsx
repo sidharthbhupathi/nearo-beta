@@ -27,7 +27,7 @@ export const TotalImpressionsCard: React.FC<TotalImpressionsCardProps> = ({
   const isPositiveTrend = impressionsTrend >= 0;
 
   return (
-    <div className="glass-card glass-card-hover p-6 rounded-2xl text-left flex flex-col justify-between h-[190px]">
+    <div className="glass-card glass-card-hover p-6 rounded-2xl text-left flex flex-col justify-between min-h-[190px] h-full">
       <div className="space-y-1">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">

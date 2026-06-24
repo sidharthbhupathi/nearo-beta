@@ -18,11 +18,8 @@ import { useMerchantPreferences } from "../hooks/useMerchantPreferences";
 import { SubscriptionUpgradeCard } from "../components/dashboard/SubscriptionUpgradeCard";
 import { t } from "../lib/translations";
 import { NEARO_PLATFORMS, PLATFORM_COUNT, getPlatformByName } from "../lib/platforms";
-import {
-  Building2,
-  ShieldCheck,
-  Sparkles,
-} from "lucide-react";
+import { MerchantDashboardHeader } from "../components/dashboard/MerchantDashboardHeader";
+import { Building2, ShieldCheck } from "lucide-react";
 
 interface DashboardProps {
   onPageChange?: (page: string) => void;
@@ -108,7 +105,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onPageChange }) => {
       toast.success(
         result.synced
           ? "Store details synced live across all connected dashboards!"
-          : "Store details updated across all 12 platforms on autopilot!"
+          : "Store details updated across all connected platforms!"
       );
     } catch {
       toast.error("Could not sync store details. Please try again.");
@@ -118,70 +115,17 @@ export const Dashboard: React.FC<DashboardProps> = ({ onPageChange }) => {
   return (
     <div className="page-shell py-12 md:py-16 px-6 md:px-12 max-w-7xl mx-auto space-y-12 relative z-10">
       
-      {/* Demo Dashboard Banner */}
-      <div className="glass-card-premium p-6 md:p-8 rounded-3xl text-left relative overflow-hidden flex flex-col lg:flex-row items-stretch justify-between gap-6">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-gold/50 to-transparent" />
-        <div className="space-y-3 max-w-2xl flex flex-col justify-between">
-          <div>
-            <div className="inline-flex items-center gap-1.5 bg-gradient-to-r from-brand-primary to-[#2d2d2d] text-white text-[10px] uppercase font-mono font-black px-3.5 py-1 rounded-full shadow-sm">
-              <Sparkles className="h-3 w-3 text-brand-gold animate-spin" /> {t("Autopilot Interactive Control Terminal", language)}
-            </div>
-            <h2 className="section-title text-2xl md:text-3xl mt-2">
-              {t("National Retailer Sync center", language)}
-            </h2>
-            <p className="text-xs md:text-sm text-brand-secondary leading-relaxed mt-1">
-              {t("Connect your catalog directly to Indian consumer touchpoints. Toggle the switches in the switchboard below to simulate map indexing and directory reach metrics immediately.", language)}
-            </p>
-          </div>
-          <div className="flex gap-2 flex-wrap text-[10.5px]">
-            <span className="font-mono bg-brand-gold/10 text-[#C9A96E] px-2.5 py-1 rounded font-bold border border-brand-gold/20">
-              {t("Swadeshi Initiative", language)}
-            </span>
-            <span className={cn(
-              "font-mono px-2.5 py-1 rounded font-bold border",
-              isLive
-                ? "bg-green-100 text-green-700 border-green-200"
-                : "bg-brand-bg/50 text-brand-secondary border-brand-beige"
-            )}>
-              {isLive ? t("● Firestore Live Sync", language) : t("● Local Demo Mode", language)}
-            </span>
-            {syncing && (
-              <span className="font-mono bg-brand-gold/10 text-brand-primary px-2.5 py-1 rounded font-bold border border-brand-gold/20 animate-pulse">
-                {t("Syncing…", language)}
-              </span>
-            )}
-          </div>
-        </div>
-
-        {/* Dense Autopilot System Status Dashboard Side Panel */}
-        <div className="border-t lg:border-t-0 lg:border-l border-brand-beige pt-4 lg:pt-0 lg:pl-6 flex flex-col justify-between shrink-0 min-w-[240px]">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-brand-secondary font-black block mb-2">
-            {t("Automated Host Handshake", language)}
-          </span>
-          <div className="divide-y divide-brand-beige/50 text-xs font-mono">
-            <div className="flex justify-between py-1.5">
-              <span className="text-brand-secondary">{t("Merchant ID:", language)}</span>
-              <span className="font-bold text-brand-primary">NR-IND-560008</span>
-            </div>
-            <div className="flex justify-between py-1.5">
-              <span className="text-brand-secondary">{t("Cron Stagger:", language)}</span>
-              <span className="font-bold text-brand-primary">{t("15-Min Intervals", language)}</span>
-            </div>
-            <div className="flex justify-between py-1.5">
-              <span className="text-brand-secondary">{t("Host Security:", language)}</span>
-              <span className="font-bold text-brand-primary text-brand-success">{t("Verified SSL", language)}</span>
-            </div>
-            <div className="flex justify-between py-1.5">
-              <span className="text-brand-secondary">{t("Node Cluster:", language)}</span>
-              <span className="font-bold text-brand-primary">Swadeshi-Node-01</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <MerchantDashboardHeader
+        shopName={shopName}
+        shopAddress={shopAddress}
+        connectedCount={connectedPlatforms.length}
+        isLive={isLive}
+        syncing={syncing}
+      />
 
       {/* Primary Metrics Layer */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 text-left items-start">
-        <div className="lg:col-span-1">
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 lg:gap-8 items-start">
+        <div className="xl:col-span-3 min-w-0">
           <SubscriptionUpgradeCard
             preferences={preferences}
             syncing={prefsSyncing || syncing}
@@ -197,14 +141,12 @@ export const Dashboard: React.FC<DashboardProps> = ({ onPageChange }) => {
             }
           />
         </div>
-        <div className="lg:col-span-3 grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Column 1: Circular Progress Gauge / Score */}
-        <div className="lg:col-span-1">
+        <div className="xl:col-span-9 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 min-w-0">
+        <div className="min-w-0">
           <VisibilityScore score={visibilityScore} />
         </div>
 
-        {/* Column 2: Total Impressions Card */}
-        <div className="lg:col-span-1">
+        <div className="min-w-0">
           <TotalImpressionsCard
             totalImpressions={summary.impressions}
             impressionsTrend={summary.impressionsTrend}
@@ -214,9 +156,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ onPageChange }) => {
           />
         </div>
 
-        {/* Column 3: Dynamic active channels counters — Structured Grid Card */}
-        <div className="lg:col-span-1">
-          <div className="glass-dark text-brand-bg rounded-2xl p-5 border border-brand-primary flex flex-col justify-between text-left h-[190px]">
+        <div className="min-w-0">
+          <div className="glass-dark text-brand-bg rounded-2xl p-5 border border-brand-primary flex flex-col justify-between text-left min-h-[190px] h-full">
             <div className="space-y-2">
               <div>
                 <span className="text-[10px] font-mono tracking-widest uppercase text-brand-gold font-bold">
