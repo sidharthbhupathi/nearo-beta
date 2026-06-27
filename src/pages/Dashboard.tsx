@@ -87,7 +87,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onPageChange }) => {
       if (result.connected) {
         toast.success(`Connected ${name}! Initiated search indexing engine.`);
       } else {
-        toast.success(`Disconnected ${name} from autopilot sync.`);
+      toast.success(`Disconnected ${name} from autopilot sync.`);
       }
       if (result.synced) {
         toast.success("Synced across all dashboard sessions.", { id: "platform-sync" });
@@ -194,8 +194,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ onPageChange }) => {
                 {t("Ready", language)}
               </span>
             </div>
+            </div>
           </div>
-        </div>
         </div>
       </div>
 

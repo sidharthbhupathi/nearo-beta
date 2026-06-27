@@ -3,7 +3,7 @@
   "appId": "1:935492059100:web:a55fe0241e7d2c573fd919",
   "apiKey": "AIzaSyCHMntR9nFxCltDtuWVmyR1PWkJ3mEr3II",
   "authDomain": "nearo--visibility.firebaseapp.com",
-  "firestoreDatabaseId": "default",
+  "firestoreDatabaseId": "(default)",
   "storageBucket": "nearo--visibility.firebasestorage.app",
   "messagingSenderId": "935492059100",
   "measurementId": "G-GF3B77WJXS"

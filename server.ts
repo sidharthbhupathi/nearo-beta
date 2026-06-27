@@ -13,13 +13,12 @@ import {
   doc, 
   getDoc, 
   setDoc, 
-  updateDoc,
   serverTimestamp,
   Timestamp 
 } from "firebase/firestore";
 import { GoogleGenAI, Type } from "@google/genai";
 import firebaseConfig from "./firebase-applet-config.json";
-import { renderAdminConsoleHtml } from "./server/adminConsole";
+import { registerAdminRoutes } from "./server/adminApi";
 
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
@@ -527,92 +526,7 @@ app.post("/api/posts/schedule", async (req, res) => {
   }
 });
 
-// --- ADMIN (server-only — not in React client bundle) ---
-
-function getAdminKey(req: express.Request): string | undefined {
-  const header = req.headers["x-admin-key"];
-  if (typeof header === "string") return header;
-  if (Array.isArray(header)) return header[0];
-  if (typeof req.query.key === "string") return req.query.key;
-  return undefined;
-}
-
-function requireAdmin(req: express.Request, res: express.Response, next: express.NextFunction) {
-  const secret = process.env.ADMIN_API_SECRET;
-  if (!secret || getAdminKey(req) !== secret) {
-    return res.status(404).json(buildErrorResponse("NOT_FOUND", "Not Found", 404));
-  }
-  next();
-}
-
-/** HTML ops console — open with ?key=YOUR_ADMIN_API_SECRET */
-app.get("/admin", requireAdmin, (req, res) => {
-  res.type("html").send(renderAdminConsoleHtml(""));
-});
-
-app.get("/api/admin/overview", requireAdmin, async (_req, res) => {
-  try {
-    const waitlistSnap = await getDocs(collection(db, "waitlist"));
-    const storesSnap = await getDocs(collection(db, "stores"));
-    const pending = waitlistSnap.docs.filter((d) => d.data().status === "pending").length;
-    res.json(
-      buildSuccessResponse({
-        waitlistPending: pending,
-        waitlistTotal: waitlistSnap.size,
-        storesCount: storesSnap.size,
-        note: "See Firebase Auth for sign-in users",
-      })
-    );
-  } catch (error: any) {
-    res.status(500).json(buildErrorResponse("ADMIN_OVERVIEW_FAILED", error.message));
-  }
-});
-
-app.get("/api/admin/waitlist", requireAdmin, async (_req, res) => {
-  try {
-    const snap = await getDocs(collection(db, "waitlist"));
-    const entries = snap.docs
-      .map((d) => ({ id: d.id, ...d.data() }))
-      .sort((a, b) => {
-        const ta = (a as { timestamp?: { toMillis?: () => number } }).timestamp?.toMillis?.() ?? 0;
-        const tb = (b as { timestamp?: { toMillis?: () => number } }).timestamp?.toMillis?.() ?? 0;
-        return tb - ta;
-      });
-    res.json(buildSuccessResponse({ entries }));
-  } catch (error: any) {
-    res.status(500).json(buildErrorResponse("ADMIN_WAITLIST_FAILED", error.message));
-  }
-});
-
-app.patch("/api/admin/waitlist/:id", requireAdmin, async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { status } = req.body;
-    const allowed = ["pending", "contacted", "approved", "rejected"];
-    if (!allowed.includes(status)) {
-      return res.status(400).json(buildErrorResponse("BAD_REQUEST", "Invalid status"));
-    }
-    const ref = doc(db, "waitlist", id);
-    const existing = await getDoc(ref);
-    if (!existing.exists()) {
-      return res.status(404).json(buildErrorResponse("NOT_FOUND", "Waitlist entry not found"));
-    }
-    await updateDoc(ref, { status });
-    res.json(buildSuccessResponse({ id, status }, "Waitlist updated"));
-  } catch (error: any) {
-    res.status(500).json(buildErrorResponse("ADMIN_UPDATE_FAILED", error.message));
-  }
-});
-
-app.get("/api/admin/stores", requireAdmin, async (_req, res) => {
-  try {
-    const snap = await getDocs(collection(db, "stores"));
-    const stores = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-    res.json(buildSuccessResponse({ stores }));
-  } catch (error: any) {
-    res.status(500).json(buildErrorResponse("ADMIN_STORES_FAILED", error.message));
-  }
-});
+registerAdminRoutes(app, db, buildSuccessResponse, buildErrorResponse);
 
 // --- VITE MIDDLEWARE SETUP ---
 
