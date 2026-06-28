@@ -87,7 +87,7 @@ export function registerAdminRoutes(
           waitlistPending: waitlist.filter((e) => (e as { status?: string }).status === "pending").length,
           waitlistTotal: waitlist.length,
           storesCount: stores.length,
-          betaConfig: { merchants_onboarded: 0, founding_spots: 100, launch_city: "Bengaluru" },
+          betaConfig: { merchants_onboarded: 1, founding_spots: 100, launch_city: "Bengaluru" },
           adminSdkReady: false,
           note: "Add FIREBASE_SERVICE_ACCOUNT for delete merchants, config, and auth cleanup.",
         })

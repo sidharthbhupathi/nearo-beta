@@ -185,7 +185,7 @@ export const MultilingualTranslator: React.FC = () => {
         </div>
         
         <p className="text-xs text-brand-secondary leading-normal">
-          {t("Convert your English descriptions, product updates, or discounts into Indian regional languages. Nearo publishes translating titles in region-matching search feeds!", globalLang)}
+          {t("Convert your English descriptions, product updates, or discounts into Indian regional languages. NearLy publishes translating titles in region-matching search feeds!", globalLang)}
         </p>
 
         {/* Selected Language Selector Cards */}

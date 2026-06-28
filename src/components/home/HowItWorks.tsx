@@ -45,8 +45,8 @@ export const HowItWorks: React.FC = () => {
   return (
     <section className="py-24 px-6 md:px-12 max-w-7xl mx-auto relative">
       <div className="text-center mb-16">
-        <span className="section-eyebrow mb-4">The Nearo Process</span>
-        <h2 className="section-title text-3xl md:text-5xl">How Nearo Works</h2>
+        <span className="section-eyebrow mb-4">The NearLy Process</span>
+        <h2 className="section-title text-3xl md:text-5xl">How NearLy Works</h2>
         <div className="gold-divider my-4" />
         <p className="text-base text-brand-secondary max-w-xl mx-auto mt-4">
           Getting on the digital map doesn’t require sitting inside a software program. We do the setup; you run your store.

@@ -1,5 +1,5 @@
 {
-  "name": "Nearo",
+  "name": "NearLy",
   "description": "Full-stack visibility agency for small Indian businesses. Helps kirana stores, organic shops, and local brands get discovered across 12+ platforms automatically.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]

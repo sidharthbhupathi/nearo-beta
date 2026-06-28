@@ -2,7 +2,8 @@ import React from "react";
 import { motion } from "motion/react";
 import { Button } from "../ui/Button";
 import { ArrowRight, Sparkles, MapPin, Search, Users } from "lucide-react";
-import { BETA_LAUNCH_CITY, PLATFORM_COUNT } from "../../lib/pricing";
+import { BETA_LAUNCH_CITY, MERCHANTS_ONBOARDED, PLATFORM_COUNT } from "../../lib/pricing";
+import { FOUNDING_DEMO_MERCHANT, DEMO_WEEKLY_IMPRESSIONS } from "../../lib/demoMerchant";
 
 interface HeroProps {
   onPageChange: (page: string) => void;
@@ -83,17 +84,19 @@ export const Hero: React.FC<HeroProps> = ({ onPageChange }) => {
           className="mt-12 flex flex-wrap items-center gap-6 border-t border-brand-beige/50 pt-8 bg-gradient-to-r from-brand-gold/5 via-transparent to-brand-gold/5 -mx-2 px-2 rounded-2xl"
         >
           <div className="flex -space-x-2.5">
-            <div className="h-8 w-8 rounded-full bg-[#e3cdab] border-2 border-brand-bg flex items-center justify-center font-bold text-[10px] text-brand-primary">KK</div>
-            <div className="h-8 w-8 rounded-full bg-[#bfcfbc] border-2 border-brand-bg flex items-center justify-center font-bold text-[10px] text-brand-primary">OS</div>
-            <div className="h-8 w-8 rounded-full bg-[#c2dcd9] border-2 border-brand-bg flex items-center justify-center font-bold text-[10px] text-brand-primary">PK</div>
+            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-brand-gold to-[#b8924f] border-2 border-brand-bg flex items-center justify-center font-bold text-[10px] text-brand-primary">
+              {FOUNDING_DEMO_MERCHANT.initials}
+            </div>
           </div>
           <div>
             <div className="flex items-center gap-1.5">
               <Users className="h-4 w-4 text-brand-gold" />
-              <span className="font-semibold text-brand-primary text-sm">Founding beta cohort</span>
+              <span className="font-semibold text-brand-primary text-sm">
+                {MERCHANTS_ONBOARDED} merchant onboarded
+              </span>
             </div>
             <span className="text-xs text-brand-secondary">
-              Launching in {BETA_LAUNCH_CITY} — in-person onboarding for every shop
+              {FOUNDING_DEMO_MERCHANT.storeName} · {BETA_LAUNCH_CITY} founding beta
             </span>
           </div>
         </motion.div>
@@ -132,7 +135,7 @@ export const Hero: React.FC<HeroProps> = ({ onPageChange }) => {
             <div className="bg-white/90 border border-brand-gold/30 rounded-2xl p-5 mb-4 shadow-sm hover:border-brand-gold transition-colors">
               <div className="flex justify-between items-start mb-2">
                 <div>
-                  <h3 className="font-serif font-black text-lg text-brand-primary">Krishna Swadeshi Organic</h3>
+                  <h3 className="font-serif font-black text-lg text-brand-primary">{FOUNDING_DEMO_MERCHANT.storeName}</h3>
                   <div className="flex items-center gap-1 mt-0.5">
                     <span className="text-xs font-semibold text-brand-gold">4.9</span>
                     <div className="flex text-brand-gold">
@@ -151,7 +154,7 @@ export const Hero: React.FC<HeroProps> = ({ onPageChange }) => {
               {/* Physical details with icons */}
               <div className="flex items-center gap-1.5 text-xs text-brand-secondary mt-3">
                 <MapPin className="h-3.5 w-3.5 text-brand-gold shrink-0" />
-                <span>Indiranagar Double Road • 250m away</span>
+                <span>{FOUNDING_DEMO_MERCHANT.locality}, Bengaluru • sample listing</span>
               </div>
 
               {/* Real-time sync signals */}
@@ -172,7 +175,9 @@ export const Hero: React.FC<HeroProps> = ({ onPageChange }) => {
             <div className="flex items-center justify-between bg-brand-primary rounded-xl p-4.5 text-brand-bg">
               <div>
                 <span className="text-[10px] uppercase font-mono tracking-wider text-brand-beige/70">Local Discovery</span>
-                <span className="text-lg font-serif font-bold text-white block mt-0.5">+340% Impressions</span>
+                <span className="text-lg font-serif font-bold text-white block mt-0.5">
+                  {DEMO_WEEKLY_IMPRESSIONS.toLocaleString("en-IN")} weekly impressions
+                </span>
               </div>
               <div className="h-10 w-10 rounded-full bg-brand-gold/25 border border-brand-gold flex items-center justify-center font-bold text-brand-gold text-sm">
                 📈

@@ -5,8 +5,8 @@ import { ShieldCheck, Sparkles, Users, MapPin, Gift } from "lucide-react";
 
 const perks = [
   { icon: Gift, title: "₹0 First Month", desc: "Full platform access with zero upfront payment." },
-  { icon: MapPin, title: "In-Person Setup", desc: "A Nearo agent visits your store and handles everything." },
-  { icon: Users, title: "Beta Cohort", desc: "Be among the first merchants onboarded on Nearo." },
+  { icon: MapPin, title: "In-Person Setup", desc: "A NearLy agent visits your store and handles everything." },
+  { icon: Users, title: "Beta Cohort", desc: "Be among the first merchants onboarded on NearLy." },
   { icon: ShieldCheck, title: "Secure & Swadeshi", desc: "KYB-verified onboarding with Indian retail standards." },
 ];
 
@@ -23,9 +23,9 @@ export const Waitlist: React.FC = () => {
           </h2>
           <div className="gold-divider my-4" />
           <p className="text-sm text-brand-secondary max-w-lg mx-auto">
-            {MERCHANTS_ONBOARDED === 0
-              ? "Be one of the first merchants in Bangalore. Safe data storage. Cancel or edit anytime."
-              : `Join ${MERCHANTS_ONBOARDED}+ merchants in Bangalore. Safe data storage. Cancel or edit anytime.`}
+            {MERCHANTS_ONBOARDED > 0
+              ? `Join ${MERCHANTS_ONBOARDED}+ merchants in Bangalore. Safe data storage. Cancel or edit anytime.`
+              : "Be one of the first merchants in Bangalore. Safe data storage. Cancel or edit anytime."}
           </p>
         </div>
 
@@ -34,7 +34,7 @@ export const Waitlist: React.FC = () => {
             <div className="glass-card-premium p-6 rounded-2xl text-left relative overflow-hidden">
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-gold/40 to-transparent" />
               <h3 className="font-serif font-black text-lg text-brand-primary mb-4">
-                Why merchants join Nearo
+                Why merchants join NearLy
               </h3>
               <div className="space-y-4">
                 {perks.map(({ icon: Icon, title, desc }) => (
@@ -56,7 +56,7 @@ export const Waitlist: React.FC = () => {
                 Limited Beta Slots
               </span>
               <p className="text-xs text-brand-bg/80 leading-relaxed">
-                First 100 shops get 30 days free plus priority onboarding. A Nearo representative will reach out on WhatsApp within 24 hours.
+                First 100 shops get 30 days free plus priority onboarding. A NearLy representative will reach out on WhatsApp within 24 hours.
               </p>
             </div>
           </div>

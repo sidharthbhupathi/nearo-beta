@@ -16,7 +16,7 @@ export const translations: TranslationDictionary = {
     "Kannada (ಕನ್ನಡ)": "ನಿಯಂತ್ರಣ ಫಲಕ",
     "Tamil (தமிழ்)": "கட்டுப்பாட்டு பலகை"
   },
-  "Customize layout filters, accessibility helpers, business metadata, and explore security protocols of Nearo.": {
+  "Customize layout filters, accessibility helpers, business metadata, and explore security protocols of NearLy.": {
     "Hindi (हिंदी)": "लेआउट फ़िल्टर, एक्सेसिबिलिटी सहायक, व्यावसायिक मेटाडेटा कस्टमाइज़ करें और नियरों के सुरक्षा प्रोटोकॉल का पता लगाएं।",
     "Kannada (ಕನ್ನಡ)": "ಲೇಔಟ್ ಫಿಲ್ಟರ್‌ಗಳು, ಪ್ರವೇಶಸಾಧ್ಯತೆಯ ಸಹಾಯಕರು, ವ್ಯಾಪಾರ ಮೆಟಾಡೇಟಾವನ್ನು ಕಸ್ಟಮೈಸ್ ಮಾಡಿ ಮತ್ತು ನಿಯಾರೊ ಭದ್ರತಾ ಪ್ರೋಟೋಕಾಲ್‌ಗಳನ್ನು ಅನ್ವೇಷಿಸಿ.",
     "Tamil (தமிழ்)": "தளவமைப்பு வடிப்பான்கள், அணுகல்தன்மை உதவியாளர்கள், வணிக மெட்டாடேட்டாவைத் தனிப்பயனாக்கி மற்றும் நியாரோ பாதுகாப்பு நெறிமுறைகளை ஆராயுங்கள்."

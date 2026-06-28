@@ -10,12 +10,14 @@ export const Footer: React.FC<{ onPageChange: (page: string) => void }> = ({ onP
         <div className="md:col-span-2">
           <div className="flex items-center gap-2 mb-4">
             <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-brand-gold to-[#b8924f] flex items-center justify-center shadow-sm">
-              <span className="text-base font-serif text-white font-bold">N</span>
+              <span className="text-xs font-serif text-white font-bold">NL</span>
             </div>
-            <span className="text-lg font-serif font-bold text-brand-primary tracking-tight">Nearo</span>
+            <span className="text-lg font-serif font-bold text-brand-primary tracking-tight">
+              Near<span className="text-brand-gold">Ly</span>
+            </span>
           </div>
           <p className="text-sm text-brand-secondary max-w-sm mb-6 font-sans">
-            Nearo is the full-stack visibility squad for Indian local commerce. We help Kirana shops, chemical-free organic stores, local boutiques, and small brands unlock organic discoverability across {PLATFORM_COUNT} agency-grade digital channels with zero technical work.
+            NearLy is the full-stack visibility squad for Indian local commerce. We help Kirana shops, chemical-free organic stores, local boutiques, and small brands unlock organic discoverability across {PLATFORM_COUNT} agency-grade digital channels with zero technical work.
           </p>
           <div className="text-xs uppercase font-mono tracking-widest text-brand-gold font-semibold">
             🌱 Made for a self-reliant India.
@@ -53,7 +55,7 @@ export const Footer: React.FC<{ onPageChange: (page: string) => void }> = ({ onP
         <div>
           <h4 className="font-serif font-semibold text-brand-primary mb-4 tracking-tight">Headquarters</h4>
           <p className="text-sm text-brand-secondary leading-relaxed font-sans">
-            Nearo Technologies Private Limited<br />
+            NearLy Technologies Private Limited<br />
             Indiranagar Quad, Bengaluru,<br />
             Karnataka — 560038
           </p>
@@ -64,7 +66,7 @@ export const Footer: React.FC<{ onPageChange: (page: string) => void }> = ({ onP
       </div>
 
       <div className="max-w-7xl mx-auto border-t border-brand-beige/50 mt-12 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-brand-secondary">
-        <p>© 2026 Nearo. All rights reserved. Bengaluru beta — founding merchant cohort.</p>
+        <p>© 2026 NearLy. All rights reserved. Bengaluru beta — founding merchant cohort.</p>
         <p className="font-serif italic font-light">Supporting "Vocal for Local" and digital neighborhood inclusion.</p>
       </div>
     </footer>

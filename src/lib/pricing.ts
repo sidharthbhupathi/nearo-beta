@@ -8,7 +8,8 @@ import {
 
 export { ALL_PLATFORM_NAMES, PLATFORM_PACKS, PLATFORM_COUNT, PLATFORM_COUNT_LABEL };
 
-export const MERCHANTS_ONBOARDED = 0;
+/** Homepage + waitlist beta counter (founding merchant included for demo). */
+export const MERCHANTS_ONBOARDED: number = 1;
 export const BETA_FOUNDING_SPOTS = 100;
 export const BETA_LAUNCH_CITY = "Bengaluru";
 

@@ -10,17 +10,20 @@ import {
   summarizeAnalytics,
   buildPlatformBreakdown,
   calculateVisibilityScore,
-  DEFAULT_CONNECTED_PLATFORMS,
   type AnalyticsSummary,
   type PlatformImpressionSlice,
 } from '../lib/firebase';
 import { getStoreAnalytics } from '../api';
 import type { Analytics, Store } from '../types';
+import {
+  FOUNDING_DEMO_MERCHANT,
+  buildDemoAnalyticsRecords,
+} from '../lib/demoMerchant';
 
 const DEFAULT_SHOP = {
-  storeName: 'Krishna Swadeshi Organic',
-  address: 'No. 12, Indiranagar Double Road, Bengaluru',
-  products: 'Cold-pressed mustard oil, local organic honey, Desi A2 ghee',
+  storeName: FOUNDING_DEMO_MERCHANT.storeName,
+  address: FOUNDING_DEMO_MERCHANT.address,
+  products: FOUNDING_DEMO_MERCHANT.products,
 };
 
 interface DashboardSyncState {
@@ -54,7 +57,9 @@ export function useDashboardSync() {
   const [localShopName, setLocalShopName] = useState(DEFAULT_SHOP.storeName);
   const [localShopAddress, setLocalShopAddress] = useState(DEFAULT_SHOP.address);
   const [localShopProducts, setLocalShopProducts] = useState(DEFAULT_SHOP.products);
-  const [localPlatforms, setLocalPlatforms] = useState<string[]>(DEFAULT_CONNECTED_PLATFORMS);
+  const [localPlatforms, setLocalPlatforms] = useState<string[]>(
+    [...FOUNDING_DEMO_MERCHANT.connectedPlatforms]
+  );
 
   const storeId = currentUser?.uid ?? null;
   const isLive = Boolean(storeId);
@@ -168,7 +173,12 @@ export function useDashboardSync() {
   const shopAddress = isLive ? (store?.address ?? localShopAddress) : localShopAddress;
   const shopProducts = isLive ? (store?.products ?? localShopProducts) : localShopProducts;
 
-  const summary = useMemo(() => summarizeAnalytics(analytics), [analytics]);
+  const effectiveAnalytics = useMemo(
+    () => (isLive ? analytics : buildDemoAnalyticsRecords()),
+    [analytics, isLive]
+  );
+
+  const summary = useMemo(() => summarizeAnalytics(effectiveAnalytics), [effectiveAnalytics]);
   const platformBreakdown = useMemo(
     () => buildPlatformBreakdown(summary.impressions, connectedPlatforms),
     [summary.impressions, connectedPlatforms]

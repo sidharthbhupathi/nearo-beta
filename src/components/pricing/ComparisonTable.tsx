@@ -49,10 +49,10 @@ export const ComparisonTable: React.FC = () => {
         <span className="section-eyebrow mb-3 inline-flex items-center gap-1.5">
           <ShieldCheck className="h-3.5 w-3.5" /> Value Comparison Matrix
         </span>
-        <h3 className="section-title text-2xl md:text-3xl">Nearo Pro vs Competitors</h3>
+        <h3 className="section-title text-2xl md:text-3xl">NearLy Pro vs Competitors</h3>
         <div className="gold-divider my-3" />
         <p className="text-xs text-brand-secondary max-w-sm mx-auto mt-2">
-          See how Nearo beats manual setups and expensive agencies for local retail.
+          See how NearLy beats manual setups and expensive agencies for local retail.
         </p>
       </div>
 
@@ -62,7 +62,7 @@ export const ComparisonTable: React.FC = () => {
             <thead>
               <tr className="bg-brand-primary text-white font-mono text-[10px] md:text-xs uppercase tracking-wider">
                 <th className="py-4 px-5 text-left font-black">Comparison Pillar</th>
-                <th className="py-4 px-5 text-left font-black text-brand-gold">Nearo Autopilot</th>
+                <th className="py-4 px-5 text-left font-black text-brand-gold">NearLy Autopilot</th>
                 <th className="py-4 px-5 text-left font-black opacity-8Full">Do It Yourself (DIY)</th>
                 <th className="py-4 px-5 text-left font-black opacity-8Full">Typical SEO Agencies</th>
               </tr>

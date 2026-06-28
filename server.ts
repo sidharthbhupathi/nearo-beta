@@ -519,7 +519,7 @@ app.post("/api/posts/schedule", async (req, res) => {
     res.json(buildSuccessResponse({
       scheduled: scheduledCount,
       failed: 0
-    }, `${scheduledCount} posts queued successfully onto Nearo autopilot queue.`));
+    }, `${scheduledCount} posts queued successfully onto NearLy autopilot queue.`));
   } catch (error: any) {
     console.error("Scheduler write failed:", error);
     res.status(500).json(buildErrorResponse("SCHEDULER_FAILED", error.message || "Something went wrong writing schedule to db."));

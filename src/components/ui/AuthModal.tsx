@@ -87,7 +87,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         if (shopName) {
           localStorage.setItem("nearo_shopName", shopName);
         }
-        toast.success("Merchant account created successfully! Welcome to Nearo.");
+        toast.success("Merchant account created successfully! Welcome to NearLy.");
       } else {
         // Sign In Flow
         const result = await signInWithEmailAndPassword(auth, email, password);
@@ -178,7 +178,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
               <Sparkles className="h-3 w-3" /> Secure Merchant Portal
             </div>
             <h3 className="text-xl sm:text-2xl font-serif font-black text-brand-primary tracking-tight">
-              {isRegistering ? "Register New Shop" : "Sign In to Nearo"}
+              {isRegistering ? "Register New Shop" : "Sign In to NearLy"}
             </h3>
             <p className="text-xs text-brand-secondary">
               Unlock synchronized visibility automation across {PLATFORM_COUNT} agency-grade channels.

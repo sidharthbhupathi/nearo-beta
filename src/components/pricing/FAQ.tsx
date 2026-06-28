@@ -12,19 +12,19 @@ export const FAQ: React.FC = () => {
 
   const faqs: FAQItem[] = [
     {
-      question: "What is Nearo, and how does it help my store?",
-      answer: "Nearo is a full-visibility digital sync agency tailored for small Indian physical businesses (like Kirana stores, sweet stalls, organic warehouses, and clothing spots). We handle all technical setups in-person to sync your physical location coordinates, daily stock updates, and localized keywords across Google Maps, WhatsApp Business, Justdial, Instagram, and 8+ other local platforms automatically."
+      question: "What is NearLy, and how does it help my store?",
+      answer: "NearLy is a full-visibility digital sync agency tailored for small Indian physical businesses (like Kirana stores, sweet stalls, organic warehouses, and clothing spots). We handle all technical setups in-person to sync your physical location coordinates, daily stock updates, and localized keywords across Google Maps, WhatsApp Business, Justdial, Instagram, and 8+ other local platforms automatically."
     },
     {
       question: `Do I need a computer to manage these ${PLATFORM_COUNT} platforms?`,
-      answer: "No, absolutely not! We believe in 'Zero-Setup Friction'. You do not need to download complex web panels or own a laptop. When our Nearo onboarding agent visits your shop in-person, they configure our automated sync engine. After that, you can simply text your fresh inventory or discounts to our verified WhatsApp bot, and our engine automatically translates and publishes the updates across all platform feeds."
+      answer: "No, absolutely not! We believe in 'Zero-Setup Friction'. You do not need to download complex web panels or own a laptop. When our NearLy onboarding agent visits your shop in-person, they configure our automated sync engine. After that, you can simply text your fresh inventory or discounts to our verified WhatsApp bot, and our engine automatically translates and publishes the updates across all platform feeds."
     },
     {
       question: "What does the Pricing Multiplier calculate?",
       answer: "We support Swadeshi business values: rural/village general stores shouldn't pay the same high rates as premium city center outlets. Our pricing multiplier algorithm calculates your exact fair monthly subscription fee based on geographic region, localized crowd density around your store, your product focus, and the selected platform pack."
     },
     {
-      question: "How do regional languages work on Nearo?",
+      question: "How do regional languages work on NearLy?",
       answer: "Native language capability is our core feature! Kannada, Hindi, Tamil, Telugu, Marathi, Bengali, and Malayalam are fully integrated. When you provide updates in simple English or your motherboard language, our server-side system localized by Gemini AI produces context-accurate vernacular title tags, ensuring neighborhood local buyers discover your products in their preferred dialect."
     },
     {

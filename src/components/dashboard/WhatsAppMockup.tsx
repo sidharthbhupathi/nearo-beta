@@ -61,7 +61,7 @@ export const WhatsAppMockup: React.FC = () => {
     setMessages([
       {
         sender: "bot",
-        text: "👋 Namaste! Welcome to Nearo Autopilot Support. I can help sync your shop details to 12 directories, generate multilingual customer ads, and fetch your visibility score.",
+        text: "👋 Namaste! Welcome to NearLy Autopilot Support. I can help sync your shop details to 12 directories, generate multilingual customer ads, and fetch your visibility score.",
         timestamp: "2:45 PM"
       },
       {
@@ -96,12 +96,12 @@ export const WhatsAppMockup: React.FC = () => {
       };
     } else if (clean.includes("post") || clean.includes("deal") || clean.includes("offer") || clean.includes("coupon")) {
       return {
-        text: "✨ *Nearo Autopilot Multi-Language Lead Compose* ✨\n\n*English Deal*: Celebrate swadeshi organic ghee! 10% instant off this festival season.\n\n*Hindi Edition (हिंदी)*: स्वदेशी जैविक घी का जश्न मनाएं! इस त्योहारी सीजन में तुरंत 10% की छूट पाएं।\n\n*Share targets*: Instantly published on *Google Maps*, *Google Search Posts*, and *WhatsApp groups* successfully! Type *'Confirm'* to publish.",
+        text: "✨ *NearLy Autopilot Multi-Language Lead Compose* ✨\n\n*English Deal*: Celebrate swadeshi organic ghee! 10% instant off this festival season.\n\n*Hindi Edition (हिंदी)*: स्वदेशी जैविक घी का जश्न मनाएं! इस त्योहारी सीजन में तुरंत 10% की छूट पाएं।\n\n*Share targets*: Instantly published on *Google Maps*, *Google Search Posts*, and *WhatsApp groups* successfully! Type *'Confirm'* to publish.",
         imageUrl: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=600"
       };
     } else if (clean.includes("confirm")) {
       return {
-        text: "🚀 *Broadcast Success!* Your custom Swadeshi festival deal has been uploaded on *Google Maps Local updates* and scheduled inside your Nearo Dashboard calendar! Check the visual calendar tab below to verify."
+        text: "🚀 *Broadcast Success!* Your custom Swadeshi festival deal has been uploaded on *Google Maps Local updates* and scheduled inside your NearLy Dashboard calendar! Check the visual calendar tab below to verify."
       };
     } else if (clean.includes("hi") || clean.includes("hello") || clean.includes("hey")) {
       return {
@@ -194,7 +194,7 @@ export const WhatsAppMockup: React.FC = () => {
           </div>
         </div>
         <p className="text-xs text-brand-secondary leading-normal text-left">
-          Simulate what customers and you receive when Nearo’s WhatsApp broadcaster transmits regional deal alerts and visibility reports automatically.
+          Simulate what customers and you receive when NearLy’s WhatsApp broadcaster transmits regional deal alerts and visibility reports automatically.
         </p>
       </div>
 
@@ -218,7 +218,7 @@ export const WhatsAppMockup: React.FC = () => {
             </div>
             <div>
               <span className="text-xs font-black block tracking-wide flex items-center gap-1">
-                Nearo Autopilot Bot
+                NearLy Autopilot Bot
                 <span className="bg-emerald-500 text-[8px] text-white rounded-full p-0.5" title="Verified Profile">✓</span>
               </span>
               <span className="text-[9px] text-emerald-100/90 font-semibold">online | Swadeshi support</span>
@@ -264,7 +264,7 @@ export const WhatsAppMockup: React.FC = () => {
                 {/* Score block render card */}
                 {m.scoreCard && (
                   <div className="mb-2 p-2 bg-[#f0f9f1] border border-green-200 rounded-lg space-y-1">
-                    <span className="text-[10px] font-mono text-emerald-700 font-bold block uppercase">NEARO SCORE</span>
+                    <span className="text-[10px] font-mono text-emerald-700 font-bold block uppercase">NEARLY SCORE</span>
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-black text-slate-800">{m.scoreCard.storeName}</span>
                       <span className="text-sm font-black text-emerald-600">{m.scoreCard.visibility}/100</span>
@@ -292,7 +292,7 @@ export const WhatsAppMockup: React.FC = () => {
                   <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:0.2s]" />
                   <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:0.4s]" />
                 </div>
-                <span>Nearo Autopilot composing...</span>
+                <span>NearLy Autopilot composing...</span>
               </motion.div>
             )}
           </AnimatePresence>

@@ -82,10 +82,10 @@ export const WaitlistForm: React.FC = () => {
           <span>Claim ₹0 Start Offer</span>
         </div>
         <h3 className="font-serif font-black text-2xl text-brand-primary">
-          Join the Nearo Waitlist
+          Join the NearLy Waitlist
         </h3>
         <p className="text-sm text-brand-secondary mt-1 max-w-md">
-          Provide your store details to unlock 30-day Free Trial. A Nearo representative will schedule an in-person meeting.
+          Provide your store details to unlock 30-day Free Trial. A NearLy representative will schedule an in-person meeting.
         </p>
       </div>
 

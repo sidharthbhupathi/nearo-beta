@@ -7,7 +7,7 @@ export function renderAdminConsoleHtml(apiBase: string): string {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nearo Admin</title>
+  <title>NearLy Admin</title>
   <style>
     * { box-sizing: border-box; }
     body { font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 20px; background: #121212; color: #f5f0e8; }
@@ -39,7 +39,7 @@ export function renderAdminConsoleHtml(apiBase: string): string {
   </style>
 </head>
 <body>
-  <h1>Nearo Admin Console</h1>
+  <h1>NearLy Admin Console</h1>
   <p class="sub">Server-side only · Manage waitlist, merchants, content, and beta settings</p>
   <div id="sdk-warn" class="warn"></div>
   <div class="meta" id="meta"></div>

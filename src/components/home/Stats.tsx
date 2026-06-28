@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "motion/react";
 import { MERCHANTS_ONBOARDED, BETA_FOUNDING_SPOTS, BETA_LAUNCH_CITY, PLATFORM_COUNT_LABEL } from "../../lib/pricing";
+import { FOUNDING_DEMO_MERCHANT } from "../../lib/demoMerchant";
 
 export const Stats: React.FC = () => {
   const stats = [
@@ -15,7 +16,8 @@ export const Stats: React.FC = () => {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(201,169,110,0.18),transparent_55%)] pointer-events-none" />
       <div className="absolute top-1/2 left-1/4 w-[200px] h-[200px] rounded-full bg-brand-gold/10 blur-[80px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 relative z-10 text-center">
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 text-center">
         {stats.map((stat, idx) => (
           <motion.div
             key={stat.label}
@@ -38,6 +40,12 @@ export const Stats: React.FC = () => {
             </span>
           </motion.div>
         ))}
+        </div>
+        {MERCHANTS_ONBOARDED > 0 && (
+          <p className="text-center text-xs text-brand-bg/70 font-mono mt-8">
+            Founding merchant: {FOUNDING_DEMO_MERCHANT.storeName} · {FOUNDING_DEMO_MERCHANT.locality}, {BETA_LAUNCH_CITY}
+          </p>
+        )}
       </div>
     </section>
   );

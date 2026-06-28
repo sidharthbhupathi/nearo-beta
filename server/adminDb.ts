@@ -67,7 +67,7 @@ export async function getAdminStats(db: Firestore) {
   const pending = waitlistEntries.filter((e) => e.status === "pending").length;
   const approved = waitlistEntries.filter((e) => e.status === "approved").length;
 
-  let config = { merchants_onboarded: 0, founding_spots: 100, launch_city: "Bengaluru" };
+  let config = { merchants_onboarded: 1, founding_spots: 100, launch_city: "Bengaluru" };
   const configSnap = await db.collection("app_config").doc("beta").get();
   if (configSnap.exists) {
     config = { ...config, ...configSnap.data() } as typeof config;

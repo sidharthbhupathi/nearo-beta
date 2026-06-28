@@ -189,7 +189,7 @@ export const Profile: React.FC<ProfileProps> = ({ onPageChange }) => {
       case "general": return "General Preferences";
       case "accessibility": return "Accessibility Controls";
       case "about_user": return "About Merchant User";
-      case "about_platform": return "About Nearo Autopilot";
+      case "about_platform": return "About NearLy Autopilot";
       case "logout": return "Session Logout";
     }
   };
@@ -205,7 +205,7 @@ export const Profile: React.FC<ProfileProps> = ({ onPageChange }) => {
             Settings & <span className="text-gold-shine italic">Profile</span>
           </h2>
           <p className="text-xs md:text-sm text-brand-secondary leading-relaxed">
-            Customize layout filters, accessibility helpers, business metadata, and explore security protocols of Nearo.
+            Customize layout filters, accessibility helpers, business metadata, and explore security protocols of NearLy.
           </p>
         </div>
 
@@ -331,7 +331,7 @@ export const Profile: React.FC<ProfileProps> = ({ onPageChange }) => {
             <div className="glass-dark rounded-xl p-4 text-left space-y-3">
               <span className="section-eyebrow text-[9px]">Pro Tips</span>
               <p className="text-xs text-brand-bg/75 leading-relaxed">
-                Connect your real Google Merchant profile to save settings persistently in Nearo's Firestore cloud databases!
+                Connect your real Google Merchant profile to save settings persistently in NearLy's Firestore cloud databases!
               </p>
               <button
                 onClick={loginWithGoogle}
@@ -370,7 +370,7 @@ export const Profile: React.FC<ProfileProps> = ({ onPageChange }) => {
                 {activeTab === "details" && (
                   <form onSubmit={handleProfileSave} className="space-y-5">
                     <p className="text-xs text-brand-secondary -mt-1 leading-normal">
-                      Update your company identity. Nearo utilizes these fields to auto-compile geo-tagged metadata records across Indian local directory APIs!
+                      Update your company identity. NearLy utilizes these fields to auto-compile geo-tagged metadata records across Indian local directory APIs!
                     </p>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -742,7 +742,7 @@ export const Profile: React.FC<ProfileProps> = ({ onPageChange }) => {
                 {activeTab === "about_platform" && (
                   <div className="space-y-4">
                     <p className="text-xs text-brand-secondary leading-relaxed">
-                      Nearo is an autonomous local marketing engine designed specifically to protect and empower Indian brick-and-mortar merchants against giant conglomerates. By synchronizing metadata coordinates in bulk, local shops get instant coverage.
+                      NearLy is an autonomous local marketing engine designed specifically to protect and empower Indian brick-and-mortar merchants against giant conglomerates. By synchronizing metadata coordinates in bulk, local shops get instant coverage.
                     </p>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -755,7 +755,7 @@ export const Profile: React.FC<ProfileProps> = ({ onPageChange }) => {
                         <div className="divide-y divide-brand-beige/30 font-mono text-[10.5px]">
                           <div className="flex justify-between py-1.5">
                             <span className="text-brand-secondary">Core Platform:</span>
-                            <span className="text-brand-primary font-bold">Nearo Engine v3.1</span>
+                            <span className="text-brand-primary font-bold">NearLy Engine v3.1</span>
                           </div>
                           <div className="flex justify-between py-1.5">
                             <span className="text-brand-secondary">Runtime Node:</span>
@@ -776,7 +776,7 @@ export const Profile: React.FC<ProfileProps> = ({ onPageChange }) => {
                         <div className="divide-y divide-brand-beige/30 font-mono text-[10.5px]">
                           <div className="flex justify-between py-1.5">
                             <span className="text-brand-secondary">Trademark:</span>
-                            <span className="text-brand-primary font-bold">Nearo Autopilot Reg</span>
+                            <span className="text-brand-primary font-bold">NearLy Autopilot Reg</span>
                           </div>
                           <div className="flex justify-between py-1.5">
                             <span className="text-brand-secondary">Sourcing Code:</span>
@@ -792,7 +792,7 @@ export const Profile: React.FC<ProfileProps> = ({ onPageChange }) => {
                     </div>
 
                     <div className="p-4 rounded-xl bg-brand-gold/5 border border-brand-beige text-xs leading-relaxed text-brand-secondary">
-                      <strong>Swadeshi Guard:</strong> Unlike massive food/grocery conglomerates that drain fees, Nearo charges flat subscription structures returning up to 98% value instantly to the neighborhood grocer family.
+                      <strong>Swadeshi Guard:</strong> Unlike massive food/grocery conglomerates that drain fees, NearLy charges flat subscription structures returning up to 98% value instantly to the neighborhood grocer family.
                     </div>
                   </div>
                 )}
@@ -811,7 +811,7 @@ export const Profile: React.FC<ProfileProps> = ({ onPageChange }) => {
                     </div>
 
                     <p className="text-xs text-brand-secondary leading-relaxed">
-                      Logging out will terminate cloud sync operations on this device session. You will be redirected safely to Nearo's public homepage.
+                      Logging out will terminate cloud sync operations on this device session. You will be redirected safely to NearLy's public homepage.
                     </p>
 
                     <div className="flex gap-3 pt-2">

@@ -49,7 +49,7 @@ export const TrustBadges: React.FC = () => {
             <span className="text-gold-shine">Swadeshi Commerce</span>
           </h2>
           <p className="text-sm text-brand-secondary leading-relaxed">
-            Nearo combines local hand-on support with powerful server-side tech keeping small Indian businesses secure, trusted, and dominant on conversational and maps search.
+            NearLy combines local hand-on support with powerful server-side tech keeping small Indian businesses secure, trusted, and dominant on conversational and maps search.
           </p>
           <div className="pt-2 flex items-center gap-2">
             <HeartHandshake className="h-5 w-5 text-brand-gold shrink-0" />

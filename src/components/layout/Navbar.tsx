@@ -49,11 +49,11 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => 
             className="flex items-center gap-2 cursor-pointer group shrink-0"
           >
             <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-brand-primary to-[#2d2d2d] flex items-center justify-center transition-all duration-300 group-hover:from-brand-gold group-hover:to-[#b8924f] shadow-sm group-hover:shadow-[0_4px_12px_rgba(201,169,110,0.35)]">
-              <span className="text-xl font-serif text-brand-bg font-bold tracking-tight">N</span>
+              <span className="text-sm font-serif text-brand-bg font-bold tracking-tight">NL</span>
             </div>
             <div className="hidden sm:block">
               <span className="text-lg font-serif font-bold tracking-tight text-brand-primary block leading-tight">
-                Nearo
+                Near<span className="text-brand-gold">Ly</span>
               </span>
               <span className="text-[9px] uppercase font-mono tracking-widest text-brand-gold block font-semibold">
                 Vocal for Local

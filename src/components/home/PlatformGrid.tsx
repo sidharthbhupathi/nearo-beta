@@ -51,7 +51,7 @@ export const PlatformGrid: React.FC = () => {
         </div>
 
         <div className="mt-14 max-w-xl mx-auto rounded-2xl bg-white/60 backdrop-blur-sm p-6 text-sm text-brand-secondary italic border border-brand-beige/50 shadow-sm">
-          "Update your catalog on Nearo or text our WhatsApp bot — listings, posts, and ad-ready copy propagate to Google Business Profile, Meta, Justdial, and more."
+          "Update your catalog on NearLy or text our WhatsApp bot — listings, posts, and ad-ready copy propagate to Google Business Profile, Meta, Justdial, and more."
         </div>
       </div>
     </section>
